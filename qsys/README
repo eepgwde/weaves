@@ -65,6 +65,12 @@ environment is only active if the QLOAD variable is set.
 
 -- Distributed System Services: trader and factory
 
+The RM-ODP is a well-intentioned improvement on the conventional naming service.
+The CORBA ORB and the IIOP naming service on Java are implementations. 
+This is a attempt to manage q/kdb+ servers in the same way.
+
+ See ITU-T Rec. X.950 | ISO/IEC 13235-1:1998
+
 qsys also adds a trader and splayed table factory to q/kdb+
 
  Qp -p 15001
