@@ -41,6 +41,7 @@ plot: { [x] x }
 
 
 %{
+#include "config.h"
 #include <string>
 #include <iostream>
 #include "lex.hh"
@@ -102,7 +103,7 @@ DEF     (<-)|(=)
 
 <*>^.*$	{
 	linecount++;
-	if (yy_flex_debug) (*yyout) << "sm: " << YY_START;
+	if (yy_flex_debug) yyout << "sm: " << YY_START;
 	REJECT;
 	}
 
@@ -113,16 +114,16 @@ DEF     (<-)|(=)
 	if (classed) {
 	  ns1 = namespace1(fname);
 	  fname = namespacen();
-	  if (yy_flex_debug) (*yyout) << "sm: id: class !impl: "
+	  if (yy_flex_debug) yyout << "sm: id: class !impl: "
 	     << YYSTATE << fname << std::endl;
 
-	  (*yyout) << "namespace " << ns1.c_str() << " { " << fname;
+	  yyout << "namespace " << ns1.c_str() << " { " << fname;
 	  yy_push_state(nsdef);
          } else {
 	  fname = deQ(fname);
-	  if (yy_flex_debug) (*yyout) << "sm: id: !impl: "
+	  if (yy_flex_debug) yyout << "sm: id: !impl: "
 	     << YYSTATE << fname << std::endl;
-	  (*yyout) << fname;
+	  yyout << fname;
 	  yy_push_state(def);
 	 }
 }

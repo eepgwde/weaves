@@ -8,7 +8,7 @@ bin_PROGRAMS=qtools
 qtools_SOURCES=qtools.c qtools.1 xmalloc.c system.h aclocal.m4 getopt.c getopt1.c getopt.h
 
 #  uncomment the following if qtools requires the math library
-#qtools_LDADD=-lm
+# qtools_LDADD=-lm
 
 EXTRA_DIST=qtools.lsm.in qtools.spec.in qtools.texinfo m4/gnulib-cache.m4
 

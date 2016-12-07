@@ -5,7 +5,7 @@
 ## qoxygen2 is the original
 ## qoxygen is the newer one that uses some C++ and counts lines.
 
-BUILT_SOURCES = mtoc1.cc lex.cc qlex.cc
+BUILT_SOURCES = mtoc1.cc lex.cc qlex.cc 
 
 noinst_PROGRAMS = string0 rtocc
 
@@ -35,7 +35,7 @@ qoxygen_SOURCES = rtocc1.cc xmalloc.c rtoc.1 \
 qlex.cc: qoxygen2.l
 	flex -+ $(FLEX_DEBUG) -o $@ $<
 
-CLEANFILES = qoxygen.c lex.yy.cc lex.yy.c rtoc.c $(BUILT_SOURCES)
+CLEANFILES = qoxygen.c lex.yy.cc lex.yy.rtoc.c $(BUILT_SOURCES)
 
 #  uncomment the following if mtoc requires the math library
 #mtoc_LDADD=-lm

@@ -22,6 +22,7 @@
 #include <pwd.h>
 */
 
+#include "config.h"
 #include <stdio.h>
 #include <sys/types.h>
 #include <argp.h>

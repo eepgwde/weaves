@@ -5,6 +5,10 @@
  */
 
 %option stack
+%{
+#include "config.h"
+%}
+
 %s def defbody fn args fnbody doc
 %x end table string block coldata
 

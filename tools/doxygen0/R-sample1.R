@@ -1,49 +1,154 @@
-##' @file R-sample1.R
-##' @brief This is a sample of a script
-##' 
-##' Has mostly calls and instantiations.
-##' Some results and scripting.
-##' @note
-##' This file has some comments to explain @brief and . (full stop). This is a
-##' doxygen caveat.
-##' @see pkg
+/**' @file R-sample.R
+*/
+/**' @brief This is a sample of a package.
+*/
+/**' 
+*/
+/**' Has mostly functions, couple of statics and no scripting.
+*/
+/**' @note
+*/
+/**' Demonstrates some basic doxygen. Note the comment is special. */
+/** and # are
+*/
+/**' passed over.
 
-## Undocumented
-library(pkg)
+*/
+/**' test function returns one.
+*/
+/**' @param car input variable
+*/
+/**' @return one
 
-##' test function returns one (no full stop not brief)
-##' @param car input variable
-##' @return one
-
-scripted1 <- function(car) {
+*/
+rets doxytest(type car) {
   n=car
 }
 
-##' function no meta fields (full stop means brief).
-scripted2 <- function(car) {
+/**' test function returns one
+*/
+/**' @param car input variable
+*/
+/**' @return one
+
+ 
+*/
+rets doxytest1(type car) {
   n=car
 }
 
-##' function no meta fields with blank line does not force this as brief
-##'
-scripted3 <- function(car) {
+/**' test variable.
+ <- */
+c(10, 20)
+
+/**' test function returns one.
+*/
+/**' @param car input variable
+*/
+/**' @return one
+
+ 
+*/
+rets .doxytest(type car) {
   n=car
 }
 
-scripted4 <- function(car) { # undocumented
+/**' test function returns one.
+*/
+/**'
+*/
+/**' No classing or overload supported. \@overload may work.
+*/
+/**' @param car input variable
+*/
+/**' @return one
+
+*/
+rets as.doxytest(type car) {
   n=car
 }
 
-if(!exists("Sys.setenv", mode = "function")) # pre R-2.5.0, use "old form"
-    Sys.setenv <- Sys.putenv
+/**' A plot with a dot.
+*/
+/**'
+*/
+/**' Dots in the names are mapped to _.
+*/
+/**' @param car input variable
+*/
+/**' @return one
+ 
+*/
+rets .doxytest.plot(type car) {
+  n=car
+}
 
-##' @var type var1
-##' @brief A script static.
-var1 <- c(10, 20)
+/**' Quoted name but has a space.
+*/
+/**'
+*/
+/**' Allowed quoted names, the lexer will remove the quotes, but does nothing with it.
+*/
+/**' So it will appear as a type.
+*/
+/**'
+*/
+/**' @param car input variable
+*/
+/**' @return one
+"*/
+doxytest quoted"
+*/
+rets .doxytest.plot(type car) {
+  n=car
+}
 
-##' Some script's twists.
-a=d
-subfunct(a)
-b=doxytest(g)
+/**' Quoted name no spaces.
+*/
+/**'
+*/
+/**' Allowed quoted names, the lexer will remove the quotes, but does nothing with it.
+*/
+/**'
+*/
+/**' @param car input variable
+*/
+/**' @return one
+
+*/
+rets  doxytest_quoted (type car) {
+  n=car
+}
+                                        /* normal comment
+  */
+m=n;
+  
+/**' test function2 returns nothing.
+*/
+/**' @param philbert input variable
+*/
+rets subfunct (type philbert) {
+  n=philbert/2			/* end of line comment
+  */
+m=n
+}
+
+/**' The last function.
+*/
+/**'
+*/
+/**' @param g input param 1
+*/
+/**' @param a input param 2
+*/
+/**' @param d input param 3
+*/
+/**' @return a,b value of param d
+*/
+rets last_Func (type g, type a,type d) {
+  a=d
+  subfunct(a)
+  b=doxytest(g)
+}
   
   

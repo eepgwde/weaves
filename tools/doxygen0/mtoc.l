@@ -12,10 +12,15 @@
 %option debug
 %option c++
 %option yylineno
+%option noyywrap
 
 %option stack
 
 %{
+extern "C"
+{
+  #include "config.h"
+}
 #include <string>
 #include <iostream>
 #include "lex.hh"
@@ -23,10 +28,6 @@
 #include <iterator>
 
 using namespace std;
-
-int yyFlexLexer::yywrap() {
-    return ::yywrap();
-}
 
 /// variety of cleanups.
 string deQ(string fname);
@@ -57,27 +58,27 @@ WS [ \t]*
 
 ^{WS}classdef{WS}{ID} {
  tag1 = replace0(yytext, "classdef", "class");
- (*yyout) << tag1;
+ yyout << tag1;
  yy_push_state(class0);
 }
 
 <class0>< {
- (*yyout) << ":";
+ yyout << ":";
  yy_push_state(classes);
 }
 
 <classes>{ID} {
- (*yyout) << "public " << replace0(yytext, ".", "_");
+ yyout << "public " << replace0(yytext, ".", "_");
  yy_pop_state();
  yy_push_state(classes1);
 }
 
 <classes1>{ID} {
- (*yyout) << ", public " << replace0(yytext, ".", "_");
+ yyout << ", public " << replace0(yytext, ".", "_");
 }
 
 <classes,classes1,class0>\n {
- (*yyout) << " {";
+ yyout << " {";
  ECHO;
  BEGIN(INITIAL);
 }
@@ -99,40 +100,40 @@ WS [ \t]*
 }
 
 <props0,methods0>\n {
- (*yyout) << accessors0(accessors);
+ yyout << accessors0(accessors);
  accessors.assign("");
  ECHO;
  yy_pop_state();
- if (yy_flex_debug) (*yyout) << "sm: " << YYSTATE;
+ if (yy_flex_debug) yyout << "sm: " << YYSTATE;
 }
 
 <props>^{WS}{ID}{WS}; {
-  (*yyout) << "type ";
+  yyout << "type ";
   ECHO;
-  if (yy_flex_debug) (*yyout) << "sm: pr0: " << YYSTATE;
+  if (yy_flex_debug) yyout << "sm: pr0: " << YYSTATE;
 }
 
 <props>^{WS}{ID}{WS}={WS}[^%\n]+{WS}; {
-  (*yyout) << "type ";
+  yyout << "type ";
   ECHO;
-  if (yy_flex_debug) (*yyout) << "sm: pr1: " << YYSTATE;
+  if (yy_flex_debug) yyout << "sm: pr1: " << YYSTATE;
 }
 
  /* end last function */
 <func>"%%" { 
  yy_push_state(doc);
- (*yyout) << "}\n/// ";
+ yyout << "}\n/// ";
 }
 
  /* close old comment, start new one */
 <doc>"%%" {
- (*yyout) << "///";
+ yyout << "///";
 }
 
  /* first token */
 "%%" { 
  yy_push_state(doc);
- (*yyout) << "/// ";
+ yyout << "/// ";
 }
 
 <doc>"%" {
@@ -146,8 +147,8 @@ WS [ \t]*
  if (ms0 != methods) {
   ECHO;
  } else {
-  (*yyout) << endl ;
-  (*yyout) << s0 << ";";
+  yyout << endl ;
+  yyout << s0 << ";";
  }
 }
 
@@ -157,7 +158,7 @@ WS [ \t]*
 
  /* start comment block */
 "%" { 
- (*yyout) << "/// ";
+ yyout << "/// ";
  yy_push_state(doc);
 }
 
@@ -178,10 +179,10 @@ WS [ \t]*
       ns_ = pre_def;
       s0 = fn_ + " { "; fn_.assign(""); fn_0 = 1;
     } else {
-      (*yyout) << "void ";
+      yyout << "void ";
     }
    }
-   (*yyout) << s0;
+   yyout << s0;
    yy_push_state(ns_);
 }
 
@@ -200,21 +201,21 @@ WS [ \t]*
       s0 = replace0(s0.c_str(), "=", "");
     }
    }
-   (*yyout) << s0;
+   yyout << s0;
    yy_push_state(ns_);
 }
 
 <methods>^{WS}{ID}{WS}={WS}{ID}{WS} {
   yy_push_state(funcDef);
   tag1 = replace0(yytext, "=", "");
-  (*yyout) << tag1;
+  yyout << tag1;
 }
 
 <methods>^{WS}{ID}{WS}={WS}{ID}{WS} {
  if (ms0 == methods) {
   yy_push_state(funcDef);
   tag1 = replace0(yytext, "=", "");
-  (*yyout) << tag1;
+  yyout << tag1;
  } else {
   ECHO;
   yy_pop_state();
@@ -228,33 +229,33 @@ WS [ \t]*
 }
 
 <paramList>\){WS}; {
- if (yy_flex_debug) (*yyout) << "sm: p0: " << YYSTATE;
+ if (yy_flex_debug) yyout << "sm: p0: " << YYSTATE;
  yy_pop_state();
  ECHO;
 }
 
 <paramList>\){WS}[^;] {
- if (yy_flex_debug) (*yyout) << "sm: p1: " << YYSTATE;
+ if (yy_flex_debug) yyout << "sm: p1: " << YYSTATE;
  yy_pop_state();
  ECHO;
- if (inFunc) (*yyout) << "/* ";
- (*yyout) << "{";
+ if (inFunc) yyout << "/* ";
+ yyout << "{";
  yy_push_state(func);
 }
 
 <pre_def>{WS}\(.+\){WS}; {
- if (yy_flex_debug) (*yyout) << "sm: p1: " << YYSTATE;
+ if (yy_flex_debug) yyout << "sm: p1: " << YYSTATE;
  yy_pop_state();
 }
 
 <pre_def>{WS}\(.+\){WS}[^;] {
- if (yy_flex_debug) (*yyout) << "sm: p1: " << YYSTATE;
+ if (yy_flex_debug) yyout << "sm: p1: " << YYSTATE;
  yy_pop_state();
  yy_push_state(func);
 }
 
 <paramList>{ID} {
- (*yyout) << "type ";
+ yyout << "type ";
  ECHO;
 }
 
@@ -264,7 +265,7 @@ WS [ \t]*
 
 <props,methods>^{WS}end{WS} {
  if (YYSTATE) BEGIN(INITIAL);
- if (yy_flex_debug) (*yyout) << "sm: pm0: " << YYSTATE;
+ if (yy_flex_debug) yyout << "sm: pm0: " << YYSTATE;
 }
 
 <func,construct0>^{WS}(if|while|for|switch){WS} {
@@ -281,21 +282,21 @@ WS [ \t]*
 }
 
 <func>^{WS}end{WS} {
- (*yyout) << "}";
+ yyout << "}";
  yy_pop_state();
- if (yy_flex_debug) (*yyout) << "sm: end 0: " << YYSTATE;
+ if (yy_flex_debug) yyout << "sm: end 0: " << YYSTATE;
  if (YYSTATE != func) {
   BEGIN(methods);
  } else {
-  if (inFunc) (*yyout) << " */";
-  (*yyout) << ";";
+  if (inFunc) yyout << " */";
+  yyout << ";";
  }
  inFunc = 0;
 }
 
 ^{WS}end{WS} {
- (*yyout) << "}";
- if (yy_flex_debug) (*yyout) << "sm: end 1: " << YYSTATE;
+ yyout << "}";
+ if (yy_flex_debug) yyout << "sm: end 1: " << YYSTATE;
 }
 
 <<EOF>> {
@@ -304,7 +305,7 @@ WS [ \t]*
 
 <*>^.*$ {
  linecount++;
- if (yy_flex_debug) (*yyout) << "sm: " << YYSTATE;
+ if (yy_flex_debug) yyout << "sm: " << YYSTATE;
  REJECT;
 }
 

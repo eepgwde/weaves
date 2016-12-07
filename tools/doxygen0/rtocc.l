@@ -31,6 +31,7 @@ plotter <- function(x) {}
 %option yylineno
 
 %{
+#include "config.h"
 #include <string>
 #include <vector>
 #include <iostream>
@@ -64,22 +65,22 @@ DEF     (<-)|(=)
 
 <*>^.*$	{
 	rlinecount++;
-	if (yy_flex_debug) (*yyout) << "sm: " << YY_START;
+	if (yy_flex_debug) yyout << "sm: " << YY_START;
 	REJECT;
 	}
 
 <defining>{DEF}{WS}function {
 	BEGIN(funcDef);
-	if (yy_flex_debug) (*yyout) << "func: " << fname;
+	if (yy_flex_debug) yyout << "func: " << fname;
 }
 
 <defining>{DEF}{WS} {
 	BEGIN(varDef);
-	if (yy_flex_debug) (*yyout) << "var: " << fname;
+	if (yy_flex_debug) yyout << "var: " << fname;
 }
 
 <funcDef>\(	{
-		  (*yyout) << fname;
+		  yyout << fname;
 		  ECHO;
 		  BEGIN(paramList);
 		}
@@ -89,20 +90,20 @@ DEF     (<-)|(=)
 		}
 
 <varDef>.+$	{
-		  (*yyout) << "type " << fname << " = ";
+		  yyout << "type " << fname << " = ";
 		  ECHO;
-		  (*yyout) << ";";
+		  yyout << ";";
 		  BEGIN(ignore);
 		}
 
 <paramList>\)	{
 		  ECHO;
-		  (*yyout) << "{}" << "\t// " << rflinecount << " \"" << tfilename << '"';
+		  yyout << "{}" << "\t// " << rflinecount << " \"" << tfilename << '"';
 		  BEGIN(ignore);
 		}
 
 <paramList>{ID}	{
-		  (*yyout) <<"type "; 
+		  yyout <<"type "; 
 		  ECHO;
 		}
 
@@ -121,7 +122,7 @@ DEF     (<-)|(=)
 
 	rflinecount = rlinecount;
 
-	if (yy_flex_debug) (*yyout) << "id: " << fname;
+	if (yy_flex_debug) yyout << "id: " << fname;
 	BEGIN(defining);
 }
 
@@ -132,7 +133,7 @@ DEF     (<-)|(=)
 		/* first token */
 		  comment_caller = YY_START;
 		  BEGIN(commentLine);
-		  (*yyout) <<"///";
+		  yyout <<"///";
 		}
 
 <*>^{WS}[#]+[^'] {
@@ -142,7 +143,7 @@ DEF     (<-)|(=)
 		  BEGIN(ignore);
 		}
 
-<ignore>\n	(*yyout) << " " << endl;
+<ignore>\n	yyout << " " << endl;
 <ignore>.	;
 
 <commentLine>.*$ ECHO; BEGIN(commented);

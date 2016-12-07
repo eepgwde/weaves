@@ -8,7 +8,9 @@
  * Ian Martins (ianxm@jhu.edu)
  */
 
-%option debug
+/* %option debug */
+
+	#include "config.h"
 
 	int inCommentLine = 0;			/* in comment line */
 	int comment_caller;
