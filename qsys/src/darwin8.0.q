@@ -181,6 +181,17 @@ qsource: { [tfile]
 // @code
 // delete a from `.
 // @endcode
+// Or, using operators: `a _ .
+// @param ctx the symbol name for a context
+// @param name the symbol name for a variable.
+// @code
+// .sys.undef . `.memo`fact0
+// @endcode
+// I think this if faster because it counts the keys rather than
+// get the value.
+// @code
+// undef: { [ctx;name] null ctx[name] }
+// @endcode
 undef: { [ctx;name] (count key ctx) = ((key ctx)?name) }
 
 // @brief List joined with its indices.

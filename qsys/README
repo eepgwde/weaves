@@ -30,6 +30,9 @@ The run-time system for the q/kdb is extended by the environment variables
 
  QPROG QHOME QLOAD and QPATH
 
+Note: the most useful feature is the ability to load Q files from the QPATH
+variable, the features are described in more detail below.
+
 These are set to default values in the configuration file 
 
  etc/q.rc
@@ -168,7 +171,7 @@ The will look for a file on the QPATH and load it. .sys.qloader
 maintains a cache of files loaded and will only load a file
 once. .sys.qreloader will load the file repeatedly.
 
- .sys.qloader enlist("help.q") 
+ .sys.qloader enlist "help.q"
 
 and 
 
@@ -189,6 +192,12 @@ q table files are given the extension .qdb to make them more
 noticeable in the OS. The function .sys.qdb enlist("mappings.qdb")
 will load the table in mappings.qdb as the table mappings. .sys.qdb
 does not search the QPATH.
+
+Note: this has proved to be the most useful extension I've added. It
+makes it very easy to prototype scripts in a small, safe, portable
+environment and migrate the scripts using some source control to a
+production system.
+
 
 A number of functions give access to the command-line
 
