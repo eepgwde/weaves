@@ -53,6 +53,7 @@ distclean-local: clean-local
 	rm -Rf man
 	rm -Rf latex
 	rm -f .time-stamp*
+	rm -f complete.doxi complete.doxo
 
 complete.doxi: $(DOXYGEN_CONFIG)
 	cat $+ | egrep -v '(^#)|(^$$)|(^[ ]+$$)' | $(SED) -e 's/GENERATE_MAN[ \t]*=[ \t]*NO/GENERATE_MAN           = NO/' \
