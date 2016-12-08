@@ -8,11 +8,13 @@
 /*  (C) 2000 Ben Tindale */
 
 
+#include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "string.h" /* String utility functions */
 #include "errno.h" /* Handle errors */
 #include "memory.h" /* Handle errors */
+#include "getopt.h"
 
 #if defined(HAVE_REGMATCH_T_RM_SP)
 #include "/usr/include/regex.h" 
