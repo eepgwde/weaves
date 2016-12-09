@@ -32,6 +32,8 @@ toc0tic:{ [m] }
 // Only used on Unix-like systems at the moment.
 // @{
 
+// Functions that interact with the host operating system.
+     
 \d .os
 
 // @brief The OS path separator.
@@ -415,23 +417,38 @@ trigger: { [ssym;f;v]
 // sch provides utilities for working with schema and tables.
 // @{
 
+// Schema and information-handling methods.
+     
 \d .sch
 
-// Return the float of strings like: 04 01234
+// Return the float of zero-padded strings like: 04 01234
 // @todo
 // "I"$"04" does the same.
-str2num: { [s] r0:(`short$s) - `short$"0";
+// @note
+// This works by using underlying ASCII the character value.
+// empty string returns null.
+str2num: { [s] if[10h <> type s; :0N];
+	 if[all null s; :0N];
+	 if[0 = count s; :0N];
+	 r0:(`short$s) - `short$"0";
+	 if[1 = count r0; :r0[0]];
 	  fx:*[10]; 
 	  n0: max ( ((count r0) - 2); 0);
 	  n1: reverse [ 1, n0 fx\10 ];
 	  (`float$r0) mmu (`float$n1) }
 
-// True is a string begins with a character 
+// Test if a string could be a token.
+//
+// @return true if the string begins with a character.
 // @todo
 // Check for no spaces or punctuation
 is_token: { all enlist (first upper 1#string x) within "AZ" }
 
-// Update a table so that the attribute named with the symbol asym is cast to a symbol
+// Update a table so that the column named by the symbol asym is cast to the symbol type.
+//
+// @param tbl a table.
+// @param asym the symbol for a column within the table.
+     
 a2str: { [tbl;asym]
 	f: { string x };
 	b: (enlist `i)!enlist `i;

@@ -1,7 +1,7 @@
 
 q_files = darwin8.0.q linux-gnu.q help.q log.q site.q sys.q trdr.q dbmaint.q \
 trdrc.q trader-cull.q commander.q \
-fctry.q fctryc.q fctryc0.q fctrys.q csvguess.q
+fctry.q fctryc.q fctryc0.q fctrys.q csvguess.q memo0.q
 
 bin_SCRIPTS = Qp Qr Qs qsys-config
 sysconf_DATA = use-q q.rc
@@ -21,6 +21,16 @@ do_subst = sed -e 's,[@]pkgdatadir[@],$(pkgdatadir),g' \
                -e 's,[@]PERL[@],$(PERL),g' \
                -e 's,[@]PACKAGE[@],$(PACKAGE),g' \
                -e 's,[@]VERSION[@],$(VERSION),g'
+
+TESTS = test0.q
+TEST_EXTENSIONS = .q .sh
+Q_LOG_COMPILER = tester
+AM_PL_LOG_FLAGS = 
+SH_LOG_COMPILER = $(SHELL)
+AM_SH_LOG_FLAGS = 
+
+LOG_COMPILER = ./tester
+AM_LOG_FLAGS = -d
 
 install-data-local:
 	cd $(qhomedir); $(RM) q.q; $(LN_S) $(pkgdatadir)/site.q q.q

@@ -29,7 +29,7 @@ noinst_HEADERS = egex0.h  k.h  kish.h  Levenshtein1.h  Levenshtein.h  skel.h
 TESTS = egex.sh smet.sh egex1.sh
 TESTS_ENVIRONMENT = $(SHELL) -x 
 
-q_files_TEST = egex1.q egex.q smet.q egex2.q
+q_files_TEST = egex1.q egex.q smet.q 
 q_files = regex.q.in
 
 EXTRA_DIST = README $(TESTS) $(q_files_TEST) $(q_files)

@@ -29,6 +29,16 @@ AC_PATH_PROG([MAKEINDEX], [makeindex])
 AC_PATH_PROG([DVIPS], [dvips])
 AC_PATH_PROG([QOXYGEN], [qoxygen])
 
+if test x"$QOXYGEN" = x
+then
+  AC_MSG_FAILURE([no qoxygen], [4])
+fi
+
+if test x"$DOXYGEN" = x
+then
+  AC_MSG_FAILURE([no doxygen], [4])
+fi
+
 dnl Checks for libraries.
 
 dnl Checks for header files.
