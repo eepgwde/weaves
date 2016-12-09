@@ -9,7 +9,9 @@ pkgdata_DATA = $(q_files)
 
 CLEANFILES = $(bin_SCRIPTS) $(sysconf_DATA)
 
-EXTRA_DIST = Qp.in Qr.in Qs.in use-q.in q.rc.in qsys-config $(q_files)
+TESTS = test0.q
+
+EXTRA_DIST = Qp.in Qr.in Qs.in use-q.in q.rc.in qsys-config $(q_files) $(TESTS)
 
 do_subst = sed -e 's,[@]pkgdatadir[@],$(pkgdatadir),g' \
 	       -e 's,[@]sysconfdir[@],$(sysconfdir),g' \
@@ -22,7 +24,6 @@ do_subst = sed -e 's,[@]pkgdatadir[@],$(pkgdatadir),g' \
                -e 's,[@]PACKAGE[@],$(PACKAGE),g' \
                -e 's,[@]VERSION[@],$(VERSION),g'
 
-TESTS = test0.q
 TEST_EXTENSIONS = .q .sh
 Q_LOG_COMPILER = tester
 AM_PL_LOG_FLAGS = 
