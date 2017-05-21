@@ -2,7 +2,7 @@
 
 /  Local Variables: 
 /  mode:q 
-/  q-prog-args: " -nodo -verbose -quiet -load tester.q"
+/  q-prog-args: " -nodo -verbose -quiet -help -load tester.q"
 /  fill-column: 75
 /  comment-column:50
 /  comment-start: "/  "
