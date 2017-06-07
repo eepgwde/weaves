@@ -12,8 +12,11 @@ LDADD = $(LTLIBINTL) $(top_builddir)/lib/libgnu.la
 
 BUILT_SOURCES = README
 
-README:
-	$(TESTS_ENVIRONMENT) egex.sh
+## Do this instead.
+AM_TESTS_ENVIRONMENT = 
+LOG_COMPILER = $(SHELL)
+AM_LOG_FLAGS = -x
+TESTS = egex.sh mygrep.sh regexpr.sh
 
 noinst_PROGRAMS = egex mygrep regexpr
 egex_SOURCES = egexm.c egex.1 xmalloc.c
@@ -21,8 +24,6 @@ egex_SOURCES = egexm.c egex.1 xmalloc.c
 mygrep_SOURCES = mygrep.c 
 regexpr_SOURCES = regexpr.c
 
-TESTS = egex.sh mygrep.sh regexpr.sh
-TESTS_ENVIRONMENT = $(SHELL) -x 
 
 EXTRA_DIST = $(TESTS) README
 

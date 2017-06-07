@@ -10,6 +10,8 @@
 // Qp qfile.q otherfile.csv -arg -args
 // @endcode
 // It uses .z.x, .z.f and .Q.x
+//
+// .z.x is only those arguments left over after q has taken the system ones
 
 if[0 < count getenv`QLOAD;
    .sys.i.args: .Q.opt .z.x;
