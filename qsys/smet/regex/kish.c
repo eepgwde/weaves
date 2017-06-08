@@ -68,6 +68,7 @@ char *kstrdup(K k1) {
   int tsz=0;
   if (k1->t != 10) return 0;
   tsz = k1->n ? k1->n : 1; 
-  return strndup((const char *)kC(k1), (size_t) tsz);
+  char * r = strndup((const char *)kC(k1), (size_t) tsz);
+  return r;
 }
 

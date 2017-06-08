@@ -5,9 +5,11 @@ ACLOCAL_AMFLAGS = -I m4
 
 # The build of the test program doesn't work under Solaris.
 
-# noinst_PROGRAMS = egext
-# egext_SOURCES = egext.c
-# egext_LDADD = c.o libqregex.la -lpthread -lm
+noinst_PROGRAMS = egext crc_t
+crc_t_SOURCES = crc_t.c
+crc_t_LDADD = -L${top_srcdir}/lib -lgnu -lpthread -lm
+egext_SOURCES = egext.c
+egext_LDADD = c.o -L${top_srcdir}/lib libqregex.la -lgnu -lpthread -lm
 
 BUILT_SOURCES = c.o
 
@@ -21,13 +23,16 @@ libqregex_la_SOURCES = egex0.c egex.c egex1.c Levenshtein.c kish.c smetrics.c ve
 
 libqregex_la_FLAGS = -no-undefined -module
 
-noinst_HEADERS = egex0.h  k.h  kish.h  Levenshtein1.h  Levenshtein.h  skel.h
+noinst_HEADERS = egex0.h  kish.h  Levenshtein1.h  Levenshtein.h  skel.h
 
 #  if you write a self-test script named `chk', uncomment the
 #  following and add `chk' to the EXTRA_DIST list
 
+AM_TESTS_ENVIRONMENT = 
+LOG_COMPILER = $(SHELL)
+AM_LOG_FLAGS = -x
+
 TESTS = egex.sh smet.sh egex1.sh
-TESTS_ENVIRONMENT = $(SHELL) -x 
 
 q_files_TEST = egex1.q egex.q smet.q 
 q_files = regex.q.in

@@ -16,9 +16,10 @@ Provide regular expression function for q/kdb.
 #include <memory.h> /* Handle errors */
 
 #include "egex0.h"
-#include "kish.h"
 
 #include "crc.h"
+
+#include "kish.h"
 
 /** \addtogroup cregex
    C to Q regular expressions
@@ -196,6 +197,7 @@ K q_get_first_cpu_frequency(K x)
 
 K q_crc32(K str)
 {
+  const char s0[] = "abc";
   char * s;
   K results;
   uint32_t r;
@@ -208,8 +210,7 @@ K q_crc32(K str)
     return re1_err(RE1_ERR);
   }
 
-  r = crc32(s, strlen(s));
-
+  r = crc32_update(0L, s, strlen(s));
   results = kj(r);
 
   return results;

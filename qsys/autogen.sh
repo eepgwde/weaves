@@ -58,7 +58,7 @@ $nodo autoconf --force
 # We override the Q progdir because we only have Linux 32 bit
 # We override the Q homedir because of a home directory layout quirk
 
-$nodo ./configure QHOME=$QHOME PATH=$PATH:$QHOME/${QOSTYPE} --prefix=$HOME \
+$nodo ./configure CFLAGS=-DKXVER=3 QHOME=$QHOME PATH=$PATH:$QHOME/${QOSTYPE} --prefix=$HOME \
  --${smet}-string-metrics \
  --with-qtrdrhost=$HOSTNAME \
  --with-qtrdrport=15001 \
