@@ -13,6 +13,8 @@ ACLOCAL_AMFLAGS = -I m4
 
 SUBDIRS = lib test regex examples
 
+# The sub-dir examples can only be run after you have installed regex.
+
 #  build and install the .info pages
 egex_TEXINFOS = gpl.texinfo
 EXTRA_DIST = m4/gnulib-cache.m4

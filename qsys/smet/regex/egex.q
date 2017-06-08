@@ -26,8 +26,6 @@ read_cycles`
 
 0N!("crc32: ",string .crc32.str["abc"]);
 
-\
-
 0N!("crc32: ",string .crc32.str["abc1"]);
 
 

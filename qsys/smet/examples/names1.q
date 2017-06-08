@@ -17,8 +17,6 @@ t2: update issuer:{ string x } each issuer from t2
 
 / Call the name testing system.
 
-\
-
 \t .sys.qloader enlist("names0.q")
 
 / 5 seconds for 650 names. 40 matches. 12 are usable.

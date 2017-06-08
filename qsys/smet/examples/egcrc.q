@@ -14,6 +14,8 @@
 .crc.str2str["THIS THAT THOSE THEM"]
 .crc.str2str["THIS THAT THOSE THEN"]
 
+if[.sys.is_arg`exit; exit 0]
+
 /  Local Variables: 
 /  mode:q 
 /  q-prog-args: " -p 1445 -halt -debug -nodo -verbose -quiet -load ports.lst super0.q "
