@@ -162,9 +162,9 @@ if[ (value "\\p");
    $[ .trdr.s <> .trdr.self`;
      [ .trdr.hs:: @[hopen; .trdr.s; `];
       / This doesn't work
-      .z.exit:: { .trdr.withdraw`; exit x };
+      .z.exit:: {  value "\\x .z.exit"; .trdr.withdraw`; exit x };
       / This does
-      .sys.exit:: { $[.sys.is_arg`halt; 'halt; .z.exit[x]] };
+      .sys.exit:: { $[.sys.is_arg`halt; 'halt; exit[x]] };
       .trdr.export0`; ::
       ];
      .sys.qloader enlist("trdr.q") ]

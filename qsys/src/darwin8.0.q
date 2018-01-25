@@ -178,6 +178,8 @@ qsource: { [tfile]
 // @brief If a name is undefined.
 //
 // Check if the name appears in the context ctx.
+// Contexts are dictionaries and the value associated with the name may be null.
+// so we have to check if its name exists.
 // @note
 // Expunge a name from a context is simply
 // @code
@@ -189,12 +191,12 @@ qsource: { [tfile]
 // @code
 // .sys.undef . `.memo`fact0
 // @endcode
-// I think this if faster because it counts the keys rather than
-// get the value.
+// This tests if the context exists first, if not, return undef as true.
+// Then test if the name exists within it, if not, return undef as true.
 // @code
-// undef: { [ctx;name] null ctx[name] }
+// 
 // @endcode
-undef: { [ctx;name] (count key ctx) = ((key ctx)?name) }
+undef: { [ctx;name] x0: if[ 0 = count key ctx; : 1b ]; not any name = key ctx }
 
 // @brief List joined with its indices.
 // Used in this way: show flip .sys.indexed alist
