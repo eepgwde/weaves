@@ -484,6 +484,9 @@ a2hsym:{ [x;y]
 	p:":" sv ("";(string x);(string y));
 	hsym `$p }
 
+// Make an hsym from two strings - useful for files with - or _
+a2hsym2:{ [x;y] hsym `$":",x,y }
+
 // Make a url from an hsym and a symbol
 a2url: { [h;y] a:("http://",(1_string .os.remap[h])); b:("<a href=\"",a,"\">",(string y),"</a>"); `$b }
 a2url1: { [h] a:("http://",(1_string .os.remap[h])); `$a }
@@ -600,10 +603,11 @@ a2null: { [tbl;n;c]
 rename: { [l; n; prfx ]
 	 m:n#(l);
 	 mx:{ `$(y,(string x)) }[;prfx] each (n)_(l);
-	 (m, mx) }
+	 (m, mx) };
 
 // Rename a matching symbol in a list
 rename1: { [l;x;y] l[l?x]:y; l }
+     
 
 // Given a table name as a symbol and a string mime type return an hsym.
 mimefile: { [tsym;mime;tpath] 
@@ -750,6 +754,30 @@ familiarize: { [families;children]
 	      b: ([] f0:(`$a[;1;]); c0:(`$a[;2;]));
 	      b }
 
+// Duplicate a key column within a table to a new name, then key on the new key
+// @param tbl a table
+// @param ksym the existing key symbol
+// @param nksym a new symbol for the key
+// @return a table
+// @note
+// This allows you copy you key column elsewhere and use a new key.
+// Used to put the key of a lookup table into a table, viz:  tbl[([]nksym);`ksym] 
+
+keyembed: { [tbl;ksym;nksym] t0: 0!tbl;
+	   t0: .sch.rename1[cols t0;ksym;nksym] xcol t0;
+	   c:();
+	   b:0b;
+	   a:(enlist ksym)!enlist nksym;
+	   nksym xkey ![t0;c;b;a] }
+
+// Copy a column value from a foreign table for which you have a key.
+// @param tbl a table or table symbol.
+// @param t0 a symbol for the the column in the foreign table.
+// @param fk the symbol name of the foreign key in the table named by tsym
+
+cpfk: { [tsym;t0;fk] t1: `$"." sv string each (fk;t0); a:(enlist t0)!enlist t1; ![tsym;();0b;a]; }
+
+     
 \d .
 
 // @}
