@@ -777,6 +777,20 @@ keyembed: { [tbl;ksym;nksym] t0: 0!tbl;
 
 cpfk: { [tsym;t0;fk] t1: `$"." sv string each (fk;t0); a:(enlist t0)!enlist t1; ![tsym;();0b;a]; }
 
+
+isinf0: { [x] { (upper x) like "0W*" } string x }
+
+// .sch.isinf @ ( 0Wt,(2#1.0f),0Wt,(2#1h) )
+isinf: { [x] $[ 0 > type x; .sch.isinf0[x]; { .sch.isinf0[x] } each x] }
+
+// Lists only
+inf2null0: { [v] x: .sch.isinf[v]; if[not any x; :x];
+	    t0: { (abs type x)$0N } each v where x; v[where x]:t0; v }
+
+
+inf2null: { [x] $[0 > type x; (.sch.inf2null0 @ enlist x) @ 0; 
+		  .sch.inf2null0 @ x ] }
+
      
 \d .
 
