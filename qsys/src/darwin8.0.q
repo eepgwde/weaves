@@ -463,6 +463,7 @@ a2str1: { [tbl;asym]
 	![tbl;();b;a] }
 
 // Convert a table's symbols to strings.
+// Uses a global     
 t2str: { [tbl]
 	.t.tbl:tbl;
 	v:exec c from (meta .t.tbl) where t = "s";
@@ -629,9 +630,16 @@ t2csv:t2mime[;"csv";""]
 t2csv3:t2mime[;"csv";]
 
 // Convert a table's symbols to strings and save the resulting table.
-t2csv2: { [tsym]
-	 tbl1:.sch.t2str[value string tsym];
-	 v:save mimefile[tsym;"csv"] set tbl1;
+// Uses a global: .t.tbl1
+// Prefixes table with "x" when written out.
+t2csv2: { [tsym;mime;tpath]
+	 .t.tbl1:.sch.t2str[value string tsym];
+	 tname: (enlist "x"), string tsym;
+	 value tname,"::.t.tbl1";
+	 v:.sch.t2mime[`$tname;mime;tpath];
+	 .t.tbl1: ();
+	 value tname,":()";
+	 value "delete ",tname," from `.";
 	 v }
 
 // @brief Flips a table: columns become rows.
