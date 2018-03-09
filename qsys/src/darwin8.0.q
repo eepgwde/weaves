@@ -806,7 +806,27 @@ inf2v: { [v;x0] x: .sch.isinf[v]; if[not any x; :v];
 	t0: { [x;y] (signum x) * (abs type x)$y }[;x0] each v where x;
 	v[where x]:t0; v }
 
+
+// Summary of a samples file
+//
+// Summarise a table, by some primary keys tkeys and some foreign or special keys fkey0
+// Pass an aggregation set (functional query "a" term)
+//
+// tkeys contains keys from the foreign file that have "copied over" to the primary earlier.
+// 
+
+sums0: { [tkeys;sums0; fkey0; tbl] tkeys: tkeys inter cols tbl; 
+	fkey0,: tkeys!tkeys;
+	?[tbl;();fkey0;sums0] }
+
      
+\d .
+
+
+\d .site
+
+reload0: { [x] f0: $[ null x; getenv`QLOAD; x]; .sys.qreloader enlist f0 }
+
 \d .
 
 // @}
