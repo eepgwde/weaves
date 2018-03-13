@@ -819,6 +819,23 @@ sums0: { [tkeys;sums0; fkey0; tbl] tkeys: tkeys inter cols tbl;
 	fkey0,: tkeys!tkeys;
 	?[tbl;();fkey0;sums0] }
 
+
+// Simple binning method
+//
+// Return the log with a truncated exponent.
+logbin: { [x;n] x1: 10 xlog x; m0:floor x1; e0: floor (10 xexp n) * x1 - m0; m0 + e0 % 10 xexp n }
+
+// Rounding
+round0: { [x;n] b0: 10 xexp n; x1:floor 0.5 + x * b0; x1 % b0 }
+
+sigfig0: { [x;n] n:n-1; b1: floor 10 xlog x ;
+	  s0: signum b1 ;
+	  b1: floor abs b1 ;
+	  b2: b1 - s0 * n ;
+	  b0: 10 xexp b2 ;
+	  x1: .sch.round0[ $[s0 < 0; x * b0; x % b0] ;0] ;
+	  $[s0 > 0; x1 * b0; x1 % b0] }
+
      
 \d .
 
@@ -830,6 +847,51 @@ reload0: { [x] f0: $[ null x; getenv`QLOAD; x]; .sys.qreloader enlist f0 }
 \d .
 
 // @}
+
+\
+
+
+/
+
+// Testing
+n:2
+
+x:31234
+
+x:0.031234
+
+b1: floor 10 xlog x
+b1
+
+s0: signum b1
+
+b1: floor abs b1
+b1
+
+b2: b1 - s0 * n
+
+b0: 10 xexp b2
+b0
+
+x1: .sch.round0[ $[s0 < 0; x * b0; x % b0] ;0]
+x1
+
+$[s0 > 0; x1 * b0; x1 % b0]
+
+
+.sch.sigfig0[31234;3]
+
+.sch.sigfig0[0.031234;3]
+
+.sch.sigfig0[1234;2]
+
+.sch.sigfig0[0.31234;2]
+
+.sch.sigfig0[234;1]
+
+.sch.sigfig0[0.1234;1]
+
+\
 
 // Overrideable function to exit
 .sys.exit: { [x] $[.sys.is_arg`halt; ::; exit x ] }
