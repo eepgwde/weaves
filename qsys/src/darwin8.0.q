@@ -846,6 +846,18 @@ reload0: { [x] f0: $[ null x; getenv`QLOAD; x]; .sys.qreloader enlist f0 }
 
 \d .
 
+\d .eg
+
+// invocation structures I never remember
+
+// keyed table x-cref using table syntax.
+txf: { [] show "areas[([]lsoa);`area]"; show "areasw[([]ward:myward;siteid);`area]"; }
+
+\d .
+
+// Overrideable function to exit
+.sys.exit: { [x] $[.sys.is_arg`halt; ::; exit x ] }
+
 // @}
 
 \
@@ -892,9 +904,6 @@ $[s0 > 0; x1 * b0; x1 % b0]
 .sch.sigfig0[0.1234;1]
 
 \
-
-// Overrideable function to exit
-.sys.exit: { [x] $[.sys.is_arg`halt; ::; exit x ] }
 
 / Test set
 / `QPATH setenv ".", .os.paths_sep, (getenv`QHOME), .os.paths_sep, "~/void"
