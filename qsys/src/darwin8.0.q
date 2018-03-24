@@ -836,6 +836,23 @@ sigfig0: { [x;n] n:n-1; b1: floor 10 xlog x ;
 	  x1: .sch.round0[ $[s0 < 0; x * b0; x % b0] ;0] ;
 	  $[s0 > 0; x1 * b0; x1 % b0] }
 
+// Convert any positive integer number n to base b
+//
+// Use with `boolean$.sch.rebase0[n;b]
+// to get a binary two vector
+rebase0: { [n;b] 1_reverse mod[({floor %[y;x]}[b;])\[{x>=1};n];b] }
+
+// Convert a 32-bit integer to an IP string with "."
+int2ip: { [x] "." sv string 256 vs x }
+
+// Convert a sequence of bytes to an integer
+bytes2int: { [x] 0x0 sv "x" $ x }
+
+// Convert a dotted IPv4 string to a sequence of bytes.
+str2ip: { [x] "H"$"." vs x }
+
+// Convert a dotted IPv4 string to an integer
+str2ip2int: { [x] .sch.bytes2int @ .sch.str2ip @ x }
      
 \d .
 
@@ -845,6 +862,20 @@ sigfig0: { [x;n] n:n-1; b1: floor 10 xlog x ;
 reload0: { [x] f0: $[ null x; getenv`QLOAD; x]; .sys.qreloader enlist f0 }
 
 \d .
+
+\d .eg
+
+// invocation structures I never remember
+
+// keyed table x-cref using table syntax.
+txf: { [] show "areas[([]lsoa);`area]"; show "areasw[([]ward:myward;siteid);`area]"; }
+
+tobinary: { [] show "0b vs 23173h" }
+
+\d .
+
+// Overrideable function to exit
+.sys.exit: { [x] $[.sys.is_arg`halt; ::; exit x ] }
 
 // @}
 
@@ -892,9 +923,6 @@ $[s0 > 0; x1 * b0; x1 % b0]
 .sch.sigfig0[0.1234;1]
 
 \
-
-// Overrideable function to exit
-.sys.exit: { [x] $[.sys.is_arg`halt; ::; exit x ] }
 
 / Test set
 / `QPATH setenv ".", .os.paths_sep, (getenv`QHOME), .os.paths_sep, "~/void"
