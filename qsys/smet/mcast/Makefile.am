@@ -21,13 +21,16 @@ libqmcast_la_SOURCES = mcast0.c mcast01.c
 
 libqmcast_la_FLAGS = -no-undefined -module
 
-noinst_PROGRAMS = mcast0t multicast
+noinst_PROGRAMS = mcast0t multicast multicast1
 
 mcast0t_LDADD = c.o libqmcast.la $(libqmcast_la_LIBADD) 
 mcast0t_LDFLAGS = -static -lpthread 
 
 multicast_LDADD = c.o libqmcast.la $(libqmcast_la_LIBADD) 
 multicast_LDFLAGS = -static -lpthread 
+
+multicast1_LDADD = c.o libqmcast.la $(libqmcast_la_LIBADD) 
+multicast1_LDFLAGS = -static -lpthread 
 
 noinst_HEADERS = mcast0.h 
 

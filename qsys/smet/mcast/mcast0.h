@@ -31,4 +31,10 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+extern void mcast_setup(const char* group1, const short port1);
+extern const char *mcast_report();
+extern int mcast_socket();
+extern int mcast_send(const char *mesj, const size_t nlen);
+extern int mcast_recv(struct sockaddr_in **addr, char *mesj, size_t *n);
+
 #endif
