@@ -89,17 +89,16 @@ static int mcast_bind() {
   return(0);
 }
 
-int mcast_recv(struct sockaddr_in **addr0, char *mesj, size_t *n) {
+int mcast_recv(struct sockaddr_in *addr0, char *mesj, size_t *n) {
   mcast_bind();
 
-  cnt = recvfrom(sock, mesj, *n, 0, 
-                 (struct sockaddr *) &addr, &addrlen);
+  socklen_t nlen = sizeof(struct sockaddr_in);
+  cnt = recvfrom(sock, mesj, *n, 0, (struct sockaddr *) addr0, &nlen);
   if (cnt < 0) {
     if (errno == EWOULDBLOCK || errno == EAGAIN) return(1);
     bound = 0;                  /* force a re-bind */
     return(-1);
   }
-  *addr0 = &addr;
   *n = cnt;
 
   return(0);

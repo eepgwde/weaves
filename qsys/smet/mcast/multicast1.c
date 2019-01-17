@@ -41,7 +41,7 @@ int main(int argc, const char **argv)
     }
   } else {
     /* receive */
-    struct sockaddr_in *addr;
+    struct sockaddr_in addr;
     while (1) {
       size_t nlen0 = BUFSZ;
       int chk = mcast_recv(&addr, buffer, &nlen0);
@@ -54,8 +54,8 @@ int main(int argc, const char **argv)
         continue;     /* wait a bit */
       }
 
-      // printf("%s: message = %d \"%s\" %s\n", nlen0, inet_ntoa(addr->sin_addr), buffer);
-      printf("%s: message = %d \"%s\"\n", "none", nlen0, buffer);
+      printf("%s: message = %d \"%s\"\n", inet_ntoa(addr.sin_addr), nlen0, buffer);
+      // printf("%s: message = %d \"%s\"\n", "none", nlen0, buffer);
     }
   }
 }
