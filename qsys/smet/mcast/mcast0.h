@@ -3,6 +3,15 @@
 
 #include "config.h"
 
+#include "stdlib.h"
+#include "string.h"
+#include "unistd.h"
+#include "stdio.h"
+
+#include "sys/types.h"
+
+#include "k.h"
+
 /* Check if using time.h */
 #if defined(HAVE_TIME_H)
 #include "time.h"
@@ -17,6 +26,9 @@
 #error "no sys/time.h found"
 #endif
 
-#include "k.h"
+
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 #endif
