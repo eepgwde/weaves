@@ -11,7 +11,7 @@
 
 ACLOCAL_AMFLAGS = -I m4
 
-SUBDIRS = lib test mcast regex examples
+SUBDIRS = lib test regex mcast examples
 
 # The sub-dir examples can only be run after you have installed regex.
 

@@ -37,8 +37,6 @@ int main(int argc, char **argv) {
   struct tm now10;
   gmtime_r(&now1, &now10);
 
-  tm0_print(&now10);
-
   struct timeval tv0;
 
   int retval = gettimeofday(&tv0, NULL);
@@ -59,27 +57,6 @@ int main(int argc, char **argv) {
   time_t now20 = mktime(&now2);
 
   fprintf(stderr, "now20: %d\n", now20);
-  
-  {
-    int time1[7] = { now10.tm_year, now10.tm_mon, now10.tm_mday,
-		     now10.tm_hour, now10.tm_min, now10.tm_sec, 500 };
-
-    double r0 = tm0_tm2utc(time1, 0);
-    time_t r1;
-    r1 = (time_t) r0;
-    fprintf(stderr, "now10: r0: %f; %s\n", r0, ctime(&r1) );
-  }
-
-  {
-    int time1[7] = { 1900 + now10.tm_year, 1 + now10.tm_mon, now10.tm_mday,
-		     now10.tm_hour, now10.tm_min, now10.tm_sec, 500 };
-
-    tm0_empty0(time1);
-    double r0 = tm0_tm2utc(time1, 0);
-    time_t r1;
-    r1 = (time_t) r0;
-    fprintf(stderr, "now10: r0: %f; %s\n", r0, ctime(&r1) );
-  }
 
   return 0;
 }
