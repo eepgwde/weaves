@@ -17,7 +17,7 @@ c.o:
 
 pkglib_LTLIBRARIES = libqmcast.la
 libqmcast_la_LIBADD = $(LTLIBINTL) ${top_srcdir}/lib/libgnu.la
-libqmcast_la_SOURCES = mcast0.c mcast01.c 
+libqmcast_la_SOURCES = mcast0.c mcast01.c version-etc-fsf.c
 
 libqmcast_la_FLAGS = -no-undefined -module
 

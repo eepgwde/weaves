@@ -8,10 +8,17 @@
 
 0N!("Linkage: about to load"; .mcast01t.lib);
 
-/ Simplest interface, take one (null sym) argument
-/ This returns 1j
+/ Take a string for the Multicast network and a port number.
 
-umcast0:.mcast01t.lib 2:(`q_umcast0;1)
+mcsetup:.mcast01t.lib 2:(`q_mc_setup;2)
+mcsend:.mcast01t.lib 2:(`q_mc_send;1)
+
+mcsetup["224.1.1.2";6001h]
+
+
+mcsetup["224.1.1.1";6000h]
+mcsend["working"]
+
 
 if[.sys.is_arg`exit; exit 0]
 

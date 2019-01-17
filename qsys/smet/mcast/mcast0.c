@@ -37,7 +37,7 @@ const char * mcast_report() {
   return(report0);
 }
 
-int mcast_socket() {
+static int mcast_socket() {
   /* set up socket */
   addrlen = 0;
   sock = socket(AF_INET, SOCK_DGRAM, 0);
