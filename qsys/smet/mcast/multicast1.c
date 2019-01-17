@@ -28,8 +28,6 @@ int main(int argc, const char **argv)
 
   char buffer[BUFSZ] = "";
 
-  mcast_socket(0);
-
   if (argc > 1) {
     /* send */
     while (1) {

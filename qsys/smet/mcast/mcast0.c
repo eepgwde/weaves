@@ -39,6 +39,7 @@ const char * mcast_report() {
 
 int mcast_socket() {
   /* set up socket */
+  addrlen = 0;
   sock = socket(AF_INET, SOCK_DGRAM, 0);
   if (sock < 0) {
     perror("socket");
@@ -56,12 +57,15 @@ int mcast_socket() {
 }
 
 int mcast_send(const char *mesj, const size_t nlen) {
+  if (addrlen == 0 && mcast_socket() > 0) return(1);
+
   addr.sin_addr.s_addr = inet_addr(group0);
 
   cnt = sendto(sock, mesj, nlen, 0,
                (struct sockaddr *) &addr, addrlen);
   if (cnt < 0) {
     perror("sendto");
+    addrlen = 0;                /* try a reset */
     return(1);
   }
   return(0);
@@ -71,6 +75,7 @@ static short bound = 0;
 
 static int mcast_bind() {
   if (bound > 0) return(0);
+  if (addrlen == 0 && mcast_socket() > 0) return(1);
 
   /* receive */
   if (bind(sock, (struct sockaddr *) &addr, sizeof(addr)) < 0) {        
