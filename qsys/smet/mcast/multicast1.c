@@ -23,10 +23,10 @@
 
 int main(int argc, const char **argv)
 {
+  char buffer[BUFSZ] = "";
+
   mcast_setup(EXAMPLE_GROUP, EXAMPLE_PORT);
   printf("%s\n", mcast_report());
-
-  char buffer[BUFSZ] = "";
 
   if (argc > 1) {
     /* send */
