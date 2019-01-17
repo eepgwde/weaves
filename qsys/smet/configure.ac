@@ -119,6 +119,7 @@ AC_CHECK_FUNC(mknod)
 
 AC_OUTPUT([Makefile
 test/Makefile
+mcast/Makefile
 regex/Makefile
 examples/Makefile
 egex.lsm egex.spec])
