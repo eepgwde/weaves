@@ -1,6 +1,6 @@
 #!/bin/sh
 
-python MCsrv.py 2>&1 | tee MCsrv.log &
+python MCsrv.py &
 pid0=$!
 sleep 1
 netstat -a -n -p | grep 1910
