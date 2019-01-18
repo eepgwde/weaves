@@ -15,10 +15,13 @@ mcsend:.mcast01t.lib 2:(`q_mc_send;1)
 
 mcsetup["224.1.1.2";6001h]
 
-
-mcsetup["224.1.1.1";6000h]
+// To connect to the Python server.
+nw0: "239.255.255.250"
+port0: 1910h
+mcsetup[nw0;port0]
 mcsend["working"]
 
+\sleep 1
 
 if[.sys.is_arg`exit; exit 0]
 

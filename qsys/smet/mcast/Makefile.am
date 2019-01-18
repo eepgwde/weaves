@@ -37,8 +37,11 @@ noinst_HEADERS = mcast0.h
 #  if you write a self-test script named `chk', uncomment the
 #  following and add `chk' to the EXTRA_DIST list
 
-TESTS = mcast0.sh mcast01.sh
-TESTS_ENVIRONMENT = $(SHELL) -x 
+TESTS = mcast01.sh
+TEST_EXTENSIONS = .sh
+SH_LOG_COMPILER = $(SHELL) -x
+
+# TESTS_ENVIRONMENT = $(SHELL) -x
 
 q_files_TEST = mcast01t.q mcast02t.q
 q_files = mcast0.q.in
