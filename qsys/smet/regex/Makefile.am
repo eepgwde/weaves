@@ -32,7 +32,7 @@ AM_TESTS_ENVIRONMENT =
 LOG_COMPILER = $(SHELL)
 AM_LOG_FLAGS = -x
 
-TESTS = egex.sh smet.sh egex1.sh
+TESTS = crc_t.sh egex.sh smet.sh egex1.sh 
 
 q_files_TEST = egex1.q egex.q smet.q 
 q_files = regex.q.in

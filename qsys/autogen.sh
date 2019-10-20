@@ -20,7 +20,7 @@ then
     set +e
     test -f Makefile && $nodo make distclean
     $nodo rm -rf m4 config lib
-    $nodo find . -type d -name autom4te.cache -exec rm -rf {} \;
+    $nodo find . -type d -name autom4te.cache -exec rm -rf {} \; 
     $nodo find . -type f \( -name Makefile.in -o -name aclocal.m4 -o -name configure -o -name '*~' \) -delete
     exit 0
 fi
@@ -44,6 +44,23 @@ else
  smet="disable"
 fi
 
+## Force 32 bit
+
+: ${BITS:=$(echo $QOSTYPE | cut -c2-)}
+
+: ${BUILD_HOST:=""}
+: ${CFLAGS:=-DKXVER=3}
+: ${CXXFLAGS:=""}
+: ${LDFLAGS:=""}
+
+if [ "$BITS" = "32" ]
+then
+  BUILD_HOST=-host=i686-linux-gnu
+  CFLAGS="-m32 $CFLAGS"
+  CXXFLAGS="-m32 $CXXFLAGS"
+  LDFLAGS="-m32 $LDFLAGS"
+fi
+
 # Not needed at this level
 # $nodo libtoolize --force
 
@@ -58,7 +75,8 @@ $nodo autoconf --force
 # We override the Q progdir because we only have Linux 32 bit
 # We override the Q homedir because of a home directory layout quirk
 
-$nodo ./configure CFLAGS=-DKXVER=3 QHOME=$QHOME PATH=$PATH:$QHOME/${QOSTYPE} --prefix=$HOME \
+$nodo ./configure CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS" CXXFLAGS="$CXXFLAGS" QHOME=$QHOME PATH=$PATH:$QHOME/${QOSTYPE} --prefix=$HOME \
+ $BUILD_HOST \
  --${smet}-string-metrics \
  --with-qtrdrhost=$HOSTNAME \
  --with-qtrdrport=15001 \

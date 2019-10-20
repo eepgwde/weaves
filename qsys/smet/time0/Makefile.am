@@ -25,13 +25,13 @@ noinst_PROGRAMS = time0t
 time0t_LDADD = c.o libqtime.la $(libqtime_la_LIBADD) 
 time0t_LDFLAGS = -static -lpthread 
 
-noinst_HEADERS = time0.h k.h kish.h skel.h
+noinst_HEADERS = time0.h kish.h skel.h
 
 #  if you write a self-test script named `chk', uncomment the
 #  following and add `chk' to the EXTRA_DIST list
 
 TESTS = time0.sh time01.sh
-TESTS_ENVIRONMENT = $(SHELL) -x 
+AM_TESTS_ENVIRONMENT = 
 
 q_files_TEST = time01t.q time02t.q
 q_files = time0.q.in

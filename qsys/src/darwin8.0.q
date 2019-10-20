@@ -32,6 +32,19 @@ toc0tic:{ [m] }
 // Only used on Unix-like systems at the moment.
 // @{
 
+\d .dtg
+
+parts: { [dt0] { "I"$x } "." vs string dt0 }
+
+// d + m + y + (y/4) + c)mod7
+dow: { [dt0] x0:.dtg.parts[dt0]; sum x0 }
+
+// from the Q phrasebook
+leap: { mod[;2] sum 0=x mod\:4 100 400}
+
+\d .
+
+
 // Functions that interact with the host operating system.
      
 \d .os

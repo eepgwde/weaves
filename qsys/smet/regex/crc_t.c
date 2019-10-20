@@ -11,18 +11,25 @@ Test program.
 
 #include "stdlib.h"
 #include "stdio.h"
-
+#include "string.h"
 #include "crc.h"
-#include "egex0.h"
+
+#include <string.h>
 
 int main(int argc, char **argv) {
   int i;
+  uint32_t r;
 
-  i = re1_factory_last();
+  const char str[] = "walter";
+  const char str0[] = "eaves";
 
-  printf("regexs %d\n", i);
+  printf("crcs %d\n", strlen(str));
 
-  void *t = re1_factory(i, "[ ]+$");
-  
+  r = crc32(str, strlen(str));
+  printf("crcs %d\n", r);
+
+  r = crc32_update(r, str, strlen(str));
+  printf("crcs %d\n", r);
+
   return 0;
 }

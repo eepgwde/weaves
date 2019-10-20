@@ -9,17 +9,16 @@ Provide regular expression function for q/kdb.
 
 #include <config.h>
 
+#include "crc.h"
+
+#include "egex0.h"
+#include "kish.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 
 #include <errno.h> /* Handle errors */
 #include <memory.h> /* Handle errors */
-
-#include "egex0.h"
-
-#include "crc.h"
-
-#include "kish.h"
 
 /** \addtogroup cregex
    C to Q regular expressions

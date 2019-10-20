@@ -1,5 +1,5 @@
 #!/bin/sh
 
-test -x egext && egext
+test -x time0t && time0t
 
-Qp egex.q -exit
+Qp time01t.q -exit
