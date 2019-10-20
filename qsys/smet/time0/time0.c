@@ -7,13 +7,13 @@ Provide regular expression function for q/kdb.
 
 */
 
-#include <config.h>
+#include "config.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
+#include "stdio.h"
+#include "stdlib.h"
+#include "ctype.h"
 
-#include <string.h>
+#include "kish0.h"
 
 #include "error.h"
 

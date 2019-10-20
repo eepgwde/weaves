@@ -26,10 +26,10 @@ int main(int argc, char **argv) {
   }
 
   unsigned int now0;
-  time_t *t0 = time((time_t *)&now0);
+  time_t t0 = time((time_t *)&now0);
   
   time_t now1;
-  time_t *t1 = time(&now1);
+  time_t t1 = time(&now1);
   
   fprintf(stderr, "time_t 0x%p\n", t1);
   fprintf(stderr, "time_t %u\n", *((unsigned int *)&now1) );

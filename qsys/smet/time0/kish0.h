@@ -7,17 +7,13 @@
 #ifndef SKEL_H
 #define SKEL_H
 
-#include <string.h>
+#include "string.h"
 
 #include "k.h"
 
-extern K re1_err();
-#define RE1_ERR 1
-#define RE1_NOERR 0
-
-extern K smet1_err();
-#define SMET1_ERR 1
-#define SMET1_NOERR 0
+extern K tm0_err();
+#define TM0_ERR 1
+#define TM0_NOERR 0
 
 extern char *kstrdup(K k1);
 

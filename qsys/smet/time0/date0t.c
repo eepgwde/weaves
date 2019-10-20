@@ -1,7 +1,7 @@
-/* \file egext.c
-   \brief Regular expression interface - utility regular expressions for q/kdb using GNUlib
+/* \file date0t.c
+   \brief Extra date functions: day of week and week of year
 
-Test program.
+Test program to check linkage. The format strings for strftime can be checked with Python.
 
 \author Walter.Eaves@bigfoot.com
 
@@ -19,7 +19,7 @@ Test program.
 int main(int argc, char **argv) {
   time_t t ; 
   struct tm *tmp ; 
-  char MY_TIME[Size]; 
+  char date0[256]; 
   time( &t ); 
       
   //localtime() uses the time pointed by t , 
@@ -30,8 +30,8 @@ int main(int argc, char **argv) {
   tmp = localtime( &t ); 
       
   // using strftime to display time 
-  strftime(MY_TIME, sizeof(MY_TIME), "%x - %I:%M%p", tmp); 
+  strftime(date0, sizeof(date0), "%x - %I:%M%p %V %u", tmp); 
       
-  printf("Formatted date & time : %s\n", MY_TIME ); 
+  printf("Formatted date & time : %s\n", date0 ); 
   return(0); 
 }

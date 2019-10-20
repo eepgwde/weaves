@@ -11,7 +11,7 @@ c.o:
 
 pkglib_LTLIBRARIES = libqtime.la
 libqtime_la_LIBADD = $(LTLIBINTL) ${top_srcdir}/lib/libgnu.la
-libqtime_la_SOURCES = time0.c time01.c kish.c version-etc-fsf.c
+libqtime_la_SOURCES = time0.c time01.c kish0.c version-etc-fsf.c
 
 libqtime_la_FLAGS = -no-undefined -module
 
@@ -23,12 +23,12 @@ time0t_LDFLAGS = -static -lpthread
 date0t_LDADD = c.o libqtime.la $(libqtime_la_LIBADD) 
 date0t_LDFLAGS = -static -lpthread 
 
-noinst_HEADERS = time0.h kish.h skel.h
+noinst_HEADERS = time0.h kish0.h skel.h
 
 #  if you write a self-test script named `chk', uncomment the
 #  following and add `chk' to the EXTRA_DIST list
 
-TESTS = time0.sh time01.sh
+TESTS = time0.sh time01.sh date0.sh
 AM_TESTS_ENVIRONMENT = 
 
 q_files_TEST = time01t.q time02t.q
