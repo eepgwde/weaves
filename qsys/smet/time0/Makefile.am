@@ -3,12 +3,6 @@ CPPFLAGS = -I${top_srcdir}/lib -DNO_PYTHON
 
 ACLOCAL_AMFLAGS = -I m4
 
-# The build of the test program doesn't work under Solaris.
-
-# noinst_PROGRAMS = egext
-# egext_SOURCES = egext.c
-# egext_LDADD = c.o libqtime.la -lpthread -lm
-
 BUILT_SOURCES = c.o
 
 c.o:
@@ -21,9 +15,13 @@ libqtime_la_SOURCES = time0.c time01.c kish.c version-etc-fsf.c
 
 libqtime_la_FLAGS = -no-undefined -module
 
-noinst_PROGRAMS = time0t
+noinst_PROGRAMS = time0t date0t
+
 time0t_LDADD = c.o libqtime.la $(libqtime_la_LIBADD) 
 time0t_LDFLAGS = -static -lpthread 
+
+date0t_LDADD = c.o libqtime.la $(libqtime_la_LIBADD) 
+date0t_LDFLAGS = -static -lpthread 
 
 noinst_HEADERS = time0.h kish.h skel.h
 

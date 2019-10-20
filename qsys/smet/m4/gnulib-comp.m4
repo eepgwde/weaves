@@ -49,6 +49,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module getopt-gnu:
   # Code from module getopt-posix:
   # Code from module gettext-h:
+  # Code from module gettimeofday:
   # Code from module include_next:
   # Code from module intprops:
   # Code from module long-options:
@@ -69,16 +70,21 @@ AC_DEFUN([gl_EARLY],
   dnl gl_PROG_CC_C99 arranges for this.  With older Autoconf gl_PROG_CC_C99
   dnl shouldn't hurt, though installers are on their own to set c99 mode.
   gl_PROG_CC_C99
+  # Code from module stdbool:
   # Code from module stddef:
   # Code from module stdint:
   # Code from module stdio:
   # Code from module stdlib:
   # Code from module strerror:
   # Code from module strerror-override:
+  # Code from module strftime:
   # Code from module string:
   # Code from module strndup:
   # Code from module strnlen:
+  # Code from module sys_time:
   # Code from module sys_types:
+  # Code from module time:
+  # Code from module time_r:
   # Code from module unistd:
   # Code from module verify:
   # Code from module version-etc:
@@ -129,6 +135,12 @@ AC_DEFUN([gl_INIT],
   AC_SUBST([GNULIB_GL_UNISTD_H_GETOPT])
   AC_SUBST([LIBINTL])
   AC_SUBST([LTLIBINTL])
+  gl_FUNC_GETTIMEOFDAY
+  if test $HAVE_GETTIMEOFDAY = 0 || test $REPLACE_GETTIMEOFDAY = 1; then
+    AC_LIBOBJ([gettimeofday])
+    gl_PREREQ_GETTIMEOFDAY
+  fi
+  gl_SYS_TIME_MODULE_INDICATOR([gettimeofday])
   gl_FUNC_MEMCHR
   if test $HAVE_MEMCHR = 0 || test $REPLACE_MEMCHR = 1; then
     AC_LIBOBJ([memchr])
@@ -151,6 +163,7 @@ AC_DEFUN([gl_INIT],
   gl_MULTIARCH
   gt_TYPE_SSIZE_T
   gl_STDARG_H
+  AM_STDBOOL_H
   gl_STDDEF_H
   gl_STDINT_H
   gl_STDIO_H
@@ -167,6 +180,7 @@ AC_DEFUN([gl_INIT],
     AC_LIBOBJ([strerror-override])
     gl_PREREQ_SYS_H_WINSOCK2
   fi
+  gl_FUNC_GNU_STRFTIME
   gl_HEADER_STRING_H
   gl_FUNC_STRNDUP
   if test $HAVE_STRNDUP = 0 || test $REPLACE_STRNDUP = 1; then
@@ -179,8 +193,17 @@ AC_DEFUN([gl_INIT],
     gl_PREREQ_STRNLEN
   fi
   gl_STRING_MODULE_INDICATOR([strnlen])
+  gl_HEADER_SYS_TIME_H
+  AC_PROG_MKDIR_P
   gl_SYS_TYPES_H
   AC_PROG_MKDIR_P
+  gl_HEADER_TIME_H
+  gl_TIME_R
+  if test $HAVE_LOCALTIME_R = 0 || test $REPLACE_LOCALTIME_R = 1; then
+    AC_LIBOBJ([time_r])
+    gl_PREREQ_TIME_R
+  fi
+  gl_TIME_MODULE_INDICATOR([time_r])
   gl_UNISTD_H
   gl_VERSION_ETC
   # End of code from modules
@@ -333,6 +356,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/getopt1.c
   lib/getopt_int.h
   lib/gettext.h
+  lib/gettimeofday.c
   lib/intprops.h
   lib/long-options.c
   lib/long-options.h
@@ -344,6 +368,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/msvc-nothrow.c
   lib/msvc-nothrow.h
   lib/stdarg.in.h
+  lib/stdbool.in.h
   lib/stddef.in.h
   lib/stdint.in.h
   lib/stdio.in.h
@@ -351,10 +376,15 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/strerror-override.c
   lib/strerror-override.h
   lib/strerror.c
+  lib/strftime.c
+  lib/strftime.h
   lib/string.in.h
   lib/strndup.c
   lib/strnlen.c
+  lib/sys_time.in.h
   lib/sys_types.in.h
+  lib/time.in.h
+  lib/time_r.c
   lib/unistd.c
   lib/unistd.in.h
   lib/verify.h
@@ -367,6 +397,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/extensions.m4
   m4/extern-inline.m4
   m4/getopt.m4
+  m4/gettimeofday.m4
   m4/gnulib-common.m4
   m4/include_next.m4
   m4/longlong.m4
@@ -381,16 +412,22 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/onceonly.m4
   m4/ssize_t.m4
   m4/stdarg.m4
+  m4/stdbool.m4
   m4/stddef_h.m4
   m4/stdint.m4
   m4/stdio_h.m4
   m4/stdlib_h.m4
   m4/strerror.m4
+  m4/strftime.m4
   m4/string_h.m4
   m4/strndup.m4
   m4/strnlen.m4
   m4/sys_socket_h.m4
+  m4/sys_time_h.m4
   m4/sys_types_h.m4
+  m4/time_h.m4
+  m4/time_r.m4
+  m4/tm_gmtoff.m4
   m4/unistd_h.m4
   m4/version-etc.m4
   m4/warn-on-use.m4
