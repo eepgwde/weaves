@@ -75,6 +75,8 @@ K q_strftime(K x, K opts, K fmt) {
   return kp(qbuffer);
 }
 
+static const char fmts[3][4] = { "%U", "%V", "%W" };
+
 /**
  * Given a date object returns the extra parts: day-of-week and week-of-year
  *
@@ -117,10 +119,20 @@ K q_xparts(K x, K opts) {
   if (mktime(&time_str) == -1)
     return r0;
   else {
-    if (xpart == 0) {
+    switch (xpart) {
+    case 0:
       r0 = ki(time_str.tm_wday);
-    } else if (xpart == 1) {
+      break;
+    case 1:
       r0 = ki(time_str.tm_yday);
+      break;
+    case 2:
+      r0 = ki(time_str.tm_isdst);
+      break;
+    default:
+      qbuffer[0] = '\0';
+      strftime(qbuffer, sizeof(qbuffer), fmts[xpart - 3], &time_str);
+      r0 = ki(atoi(qbuffer));
     }
   }
 

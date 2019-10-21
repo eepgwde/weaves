@@ -30,6 +30,21 @@ dt00: `date$dt0
 x0: .date0.xparts[dt00;0]
 x0
 
+x0: .date0.xparts[dt00;1]
+x0
+
+x0: .date0.xparts[dt00;2]
+x0
+
+x0: .date0.xparts[dt00;3]
+x0
+
+x0: .date0.xparts[dt00;4]
+x0
+
+x0: .date0.xparts[dt00;5]
+x0
+
 if[.sys.is_arg`exit; exit 0]
 
 /  Local Variables: 
