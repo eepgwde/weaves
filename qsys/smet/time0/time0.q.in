@@ -38,7 +38,7 @@ parts: { [dt] dt0:`date$dt;
 
 // Pass a date object and an integer between 0 and 5
 // 0 weekday; 1 day-of-year ; 2 daylight-saving;
-// 4 week-number Sunday 0-53; 5 is ISO week-number Sunday 01-53; 6 is week-number Monday 0-53
+// 3 week-number Sunday 0-53; 4 is ISO week-number Sunday 01-53; 5 is week-number Monday 0-53
 xparts: .time0.i.lib 2:(`q_xparts;2)
 
 \d .

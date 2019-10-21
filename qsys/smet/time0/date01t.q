@@ -59,6 +59,10 @@ x0
 x1:.date0.strftime[dt1;0;"%u"]
 x1
 
+// list-wise
+dts:(2001.01.01 2002.02.02 2003.03.03)
+x1: .date0.xparts[dts;1]
+x1
 
 if[.sys.is_arg`exit; exit 0]
 

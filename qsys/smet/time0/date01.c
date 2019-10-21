@@ -80,7 +80,7 @@ K q_strftime(K x, K opts, K fmt) {
 static const char fmts[NFMTS][4] = { "%U", "%V", "%W" };
 
 /**
- * Given a date object returns the extra parts: day-of-week and week-of-year
+ * Given a date object returns the extra parts: day-of-week and week-of-year (3 styles)
  *
  * @return string formatted string.
  */
@@ -92,6 +92,21 @@ K q_xparts(K x, K opts) {
   struct tm time_str;
   K r0 = tm0_err(TM0_ERR);
   int idx;
+  I *pdts;
+
+  if (x->t == 14) {
+    I *dts = kI(x);
+    pdts = (I *) malloc(x->n * sizeof(I));
+    for (int i=0; i<x->n; i++) {
+      *(pdts + i) = dj(*(dts + i));
+    }
+    for (int i=0; i<x->n; i++) {
+      fprintf(stderr, "%d ", *(pdts + i));
+    }
+    fprintf(stderr, "\n");
+    free(pdts);
+    return r0;
+  }
 
   if (x->t != -14) 
     return r0;
@@ -137,7 +152,7 @@ K q_xparts(K x, K opts) {
       if (idx >= NFMTS) {
         return r0;
       }
-      qbuffer[0] = '\0';
+      strncpy(qbuffer, "", sizeof(qbuffer));
       strftime(qbuffer, sizeof(qbuffer), fmts[idx], &time_str);
       r0 = ki(atoi(qbuffer));
     }
