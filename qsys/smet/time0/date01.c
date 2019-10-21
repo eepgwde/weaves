@@ -84,24 +84,47 @@ K q_xparts(K x, K opts) {
   struct tm tm1;
   char *fmt0;
   int is_list = 0;
-  int xpart = 0;
+  I xpart = 0;
+  struct tm time_str;
+  K r0 = tm0_err(TM0_ERR);
 
-  return tm0_err(TM0_ERR);
-
-  if (x->t != -14 && x->t != 14) return tm0_err(TM0_ERR);
+  if (x->t != -14 && x->t != 14) 
+    return r0;
   if (x->t > 0) is_list = 1;
 
-  if (opts->t == -6) {
-    xpart = (int) opts->s;
+  if (opts->t == -6 || opts->t == -7) {
+    xpart = (int) opts->i;
   }
 
-  I t0 = ymd(2001,1,2);
-  I * dt1 = kI(x);
-  I dt0 = dj(t0);
-  fprintf(stderr, "%d %d\n", *dt1, dt0);
+  // This is an atomic access
+  I dt1 = x->i;
+  I dt0 = dj(dt1);
   int y = (int) (dt0 / 10000) ;
+  dt0 = dt0 - 10000 * y;
+  int m = (int) dt0 / 100 ;
+  dt0 = dt0 - 100 * m;
+  int d = (int) dt0;
 
-  return kd(*kI(x));
+  /* notice you don't have to put in weekday or year day */
+  time_str.tm_year = y - 1900;
+  time_str.tm_mon = m - 1;    /* month */
+  time_str.tm_mday = d;       /* day of month */
+  time_str.tm_hour = 0;
+  time_str.tm_min = 0;
+  time_str.tm_sec = 1;
+  time_str.tm_isdst = -1;
+
+  if (mktime(&time_str) == -1)
+    return r0;
+  else {
+    if (xpart == 0) {
+      r0 = ki(time_str.tm_wday);
+    } else if (xpart == 1) {
+      r0 = ki(time_str.tm_yday);
+    }
+  }
+
+  return r0;
 }
 
 
