@@ -181,8 +181,10 @@ int re1_match(const regex_t *r, const char *s, regmatch_t * result, int len, int
   return 1;
 }
 
+/* These are the offsets from the K representation of dates */
 static int base0[7] = { -1900, -1, 0, 0, 0, 0, 0 };
 
+/* This adjusts the K dates to internal values. */
 int* tm0_empty0(int *p) {
   int i;
   int *p0 = p;
@@ -198,20 +200,32 @@ int* tm0_empty0(int *p) {
  * 
  */
 double tm0_tm2utc(int *x, int is_dst) {
+  return tm0_tm2utc0(x, is_dst, NULL);
+}
+
+/**
+ * Given an array of integers specifying a date-time return a UTC and complete the time structure.
+ *
+ * 
+ */
+double tm0_tm2utc0(int *x, int is_dst, struct tm *tm1) {
   struct tm tm0;
 
   tm0.tm_year = x[0];
-  tm0.tm_mon = x[1];
+  tm0.tm_mon = x[1]; 
   tm0.tm_mday = x[2];
   tm0.tm_hour = x[3];
   tm0.tm_min = x[4];
   tm0.tm_sec = x[5];
 
-  /* tm0.tm_wday = 0; */
-  /* tm0.tm_yday = 0; */
+  tm0.tm_wday = -1;
+  tm0.tm_yday = -1;
   tm0.tm_isdst = is_dst;
 
   time_t time0 = mktime(&tm0);
+  if (tm1 != NULL) {
+    *tm1 = tm0;
+  }
 
   double tv1 = (double) time0;
   double tv10 = (double) x[6] / (double) 1000.0;

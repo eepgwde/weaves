@@ -81,5 +81,19 @@ int main(int argc, char **argv) {
     fprintf(stderr, "now10: r0: %f; %s\n", r0, ctime(&r1) );
   }
 
+  {
+    int time1[7] = { 1900 + now10.tm_year, 1 + now10.tm_mon, now10.tm_mday,
+                     now10.tm_hour, now10.tm_min, now10.tm_sec, 500 };
+
+    struct tm tm1;
+    tm0_empty0(time1);
+    double r0 = tm0_tm2utc0(time1, 0, &tm1);
+    time_t r1;
+    r1 = (time_t) r0;
+    fprintf(stderr, "now10: r0: %f; %s\n", r0, ctime(&r1) );
+
+    fprintf(stderr, "tm_wday: %d ; tm_yday: %d\n", tm1.tm_wday, tm1.tm_yday);
+  }
+
   return 0;
 }

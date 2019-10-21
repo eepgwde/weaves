@@ -11,7 +11,7 @@ c.o:
 
 pkglib_LTLIBRARIES = libqtime.la
 libqtime_la_LIBADD = $(LTLIBINTL) ${top_srcdir}/lib/libgnu.la
-libqtime_la_SOURCES = time0.c time01.c kish0.c version-etc-fsf.c
+libqtime_la_SOURCES = time0.c time01.c date0.c date01.c kish0.c version-etc-fsf.c
 
 libqtime_la_FLAGS = -no-undefined -module
 

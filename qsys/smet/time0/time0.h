@@ -29,6 +29,7 @@ extern int tm0_print(struct tm *);
 /* This takes a 7 integer array, first is a year, last is milliseconds */
 #define TM0_N 7
 extern double tm0_tm2utc(int *x, int is_dst);
+extern double tm0_tm2utc0(int *x, int is_dst, struct tm *);
 extern int* tm0_empty0(int *x);
 
 extern int re1_cc(regex_t *r, const char *p, int flags);

@@ -36,11 +36,11 @@ toc0tic:{ [m] }
 
 parts: { [dt0] { "I"$x } "." vs string dt0 }
 
-// d + m + y + (y/4) + c)mod7
-dow: { [dt0] x0:.dtg.parts[dt0]; sum x0 }
-
 // from the Q phrasebook
 leap: { mod[;2] sum 0=x mod\:4 100 400}
+
+// d + m + y + (y/4) + c)mod7
+dow: { [dt0] x0:.dtg.parts[dt0]; sum x0 }
 
 \d .
 
@@ -192,7 +192,7 @@ qsource: { [tfile]
 //
 // Check if the name appears in the context ctx.
 // Contexts are dictionaries and the value associated with the name may be null.
-// so we have to check if its name exists.
+// so we have to check if its name exists. Not very good implementation use undef1
 // @note
 // Expunge a name from a context is simply
 // @code
@@ -209,7 +209,9 @@ qsource: { [tfile]
 // @code
 // 
 // @endcode
-undef: { [ctx;name] x0: if[ 0 = count key ctx; : 1b ]; not any name = key ctx }
+undef: { [ctx;name] ks:key ctx; x0: if[ 0 = count ks; : 1b ]; not any name = ks }
+
+undef1: { [name] 0 = count key name }
 
 // @brief List joined with its indices.
 // Used in this way: show flip .sys.indexed alist

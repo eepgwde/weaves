@@ -21,6 +21,11 @@ Provide some UTC support for q/kdb.
 
 /* #undef NDEBUG */
 
+/** \addtogroup dttm0
+    Date and time methods.
+    @{
+*/
+
 /**
  * provides the current time in UTC seconds.
  *
