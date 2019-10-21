@@ -32,4 +32,7 @@ extern double tm0_tm2utc(int *x, int is_dst);
 extern double tm0_tm2utc0(int *x, int is_dst, struct tm *);
 extern int* tm0_empty0(int *x);
 
+extern struct tm const * dt0_to(const int *);
+extern int dt0_part(const int);
+
 #endif

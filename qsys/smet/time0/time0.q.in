@@ -31,6 +31,8 @@ parts: { [dt] tm0:`time$dt;
 
 strftime: .time0.i.lib 2:(`q_strftime;3)
 
+seq: .time0.i.lib 2:(`q_seq;1)
+
 // Convert a K date object to an array
 parts: { [dt] dt0:`date$dt; 
         x0: (`year$dt0;`mm$dt0;`dd$dt0);

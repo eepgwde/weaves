@@ -7,6 +7,8 @@ Provide some day of week, week of year and access to strftime.
 
 */
 
+#include <inttypes.h>
+
 #include "config.h"
 
 #include "stdio.h"
@@ -76,6 +78,17 @@ K q_strftime(K x, K opts, K fmt) {
   return kp(qbuffer);
 }
 
+static volatile J v;
+
+K q_seq(K x){
+  K y;J j=1;
+  P(xt!=101&&xt!=-7,krr("type"))
+  j=__sync_fetch_and_add(&v,xt==-7?xj:j);
+  P(xt==101,kj(j))
+  y=ktn(KJ,xj);DO(xj,kJ(y)[i]=j++)
+  R y;
+}
+
 #define NFMTS  3
 static const char fmts[NFMTS][4] = { "%U", "%V", "%W" };
 
@@ -94,14 +107,20 @@ K q_xparts(K x, K opts) {
   int idx;
   I *pdts;
 
+  if (opts->t == -6 || opts->t == -7) {
+    xpart = (int) opts->i;
+  }
+
   if (x->t == 14) {
     I *dts = kI(x);
     pdts = (I *) malloc(x->n * sizeof(I));
     for (int i=0; i<x->n; i++) {
-      *(pdts + i) = dj(*(dts + i));
+      *(pdts + i) = dj(*(dts+i));
     }
     for (int i=0; i<x->n; i++) {
-      fprintf(stderr, "%d ", *(pdts + i));
+      (void )dt0_to(pdts+i);
+      *(pdts+i) = dt0_part(xpart);
+      fprintf(stderr, "%d ", *(pdts+i));
     }
     fprintf(stderr, "\n");
     free(pdts);
@@ -110,11 +129,6 @@ K q_xparts(K x, K opts) {
 
   if (x->t != -14) 
     return r0;
-  if (x->t > 0) is_list = 1;
-
-  if (opts->t == -6 || opts->t == -7) {
-    xpart = (int) opts->i;
-  }
 
   // This is an atomic access
   I dt1 = x->i;

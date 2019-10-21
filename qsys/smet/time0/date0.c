@@ -21,7 +21,7 @@ Provide some day of the week and week number methods. A generic interface to str
 
 /* #undef NDEBUG */
 
-static char qbuffer[1024] = "";
+static char qbuffer[256] = "";
 
 static struct tm tm1;
 
@@ -43,6 +43,38 @@ struct tm const * dt0_to(const int *dt0) {
   tm1.tm_sec = 1;
   tm1.tm_isdst = -1;
 
+  if (mktime(&tm1) == -1)
+    return 0;
+
   return &tm1;
+}
+
+#define NFMTS  3
+static const char fmts[NFMTS][4] = { "%U", "%V", "%W" };
+
+int dt0_part(const int xpart) {
+  int r0 = -1;
+  int idx;
+
+  switch (xpart) {
+  case 0:
+    r0 = tm1.tm_wday;
+    break;
+  case 1:
+    r0 = tm1.tm_yday;
+    break;
+  case 2:
+    r0 = tm1.tm_isdst;
+    break;
+  default:
+    idx = xpart - 3;
+    if (idx >= NFMTS) {
+      return r0;
+    }
+    strncpy(qbuffer, "", sizeof(qbuffer));
+    strftime(qbuffer, sizeof(qbuffer), fmts[idx], &tm1);
+    r0 = atoi(qbuffer);
+  }
+  return r0;
 }
 

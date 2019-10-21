@@ -64,6 +64,14 @@ dts:(2001.01.01 2002.02.02 2003.03.03)
 x1: .date0.xparts[dts;1]
 x1
 
+.date0.seq[]
+
+.date0.seq[]
+
+.date0.seq 6
+
+.date0.seq 10
+
 if[.sys.is_arg`exit; exit 0]
 
 /  Local Variables: 
