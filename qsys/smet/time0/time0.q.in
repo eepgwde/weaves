@@ -2,7 +2,7 @@
 
 / Time and date extra methods
 
-time0.i.lib: $[.sys.undef1[`.time0.i.lib]; `$"@pkglibdir@/libqtime"; .time0.i.lib]
+.time0.i.lib: $[.sys.undef1[`.time0.i.lib]; `$"@pkglibdir@/libqtime"; .time0.i.lib]
 
 \d .time0
 
@@ -19,9 +19,9 @@ utime2: .time0.i.lib 2:(`q_utime2;2)
 // Convert a UTC float back to a string
 utime3: .time0.i.lib 2:(`q_utime3;1)
 
-// Convert a K datetime object to an array for utime2
-parts: { [dt] dt0:`date$dt; tm0:`time$dt;
-        x0: (`year$dt0;`mm$dt0;`dd$dt0; `hh$tm0; `mm$tm0; `ss$tm0; `int$tm0 mod 1000);
+// Convert a K time object to an array
+parts: { [dt] tm0:`time$dt;
+        x0: (`hh$tm0; `mm$tm0; `ss$tm0; `int$tm0 mod 1000);
         x0: { `int$x } each x0 }
 
 
@@ -31,10 +31,15 @@ parts: { [dt] dt0:`date$dt; tm0:`time$dt;
 
 strftime: .time0.i.lib 2:(`q_strftime;3)
 
+// Convert a K date object to an array
+parts: { [dt] dt0:`date$dt; 
+        x0: (`year$dt0;`mm$dt0;`dd$dt0);
+        x0: { `int$x } each x0 }
+
+// Pass a date object and an integer between 0 and 5
+// 0 weekday; 1 day-of-year ; 2 daylight-saving;
+// 4 week-number Sunday 0-53; 5 is ISO week-number Sunday 01-53; 6 is week-number Monday 0-53
 xparts: .time0.i.lib 2:(`q_xparts;2)
 
 \d .
-
-
-
 

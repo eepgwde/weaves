@@ -54,9 +54,10 @@ K q_strftime(K x, K opts, K fmt) {
 
   int is_dst = 0;
   if (opts->t == -6) {
-    is_dst = (int) opts->s;
+    is_dst = (int) opts->i;
   }
 
+  strncpy(qfmt, "", sizeof(qfmt));
   fmt0 = kstrcpy(fmt);
 
   int x0[TM0_N];
@@ -69,13 +70,14 @@ K q_strftime(K x, K opts, K fmt) {
   tm0_empty0(x0);
   double r0 = tm0_tm2utc0(x0, is_dst, &tm1);
 
-  qbuffer[0] = '\0';
-  strftime(qbuffer, sizeof(qbuffer), fmt0, &tm1);
+  strncpy(qbuffer, "", sizeof(qbuffer));
+  size_t n = strftime(qbuffer, sizeof(qbuffer), fmt0, &tm1);
 
   return kp(qbuffer);
 }
 
-static const char fmts[3][4] = { "%U", "%V", "%W" };
+#define NFMTS  3
+static const char fmts[NFMTS][4] = { "%U", "%V", "%W" };
 
 /**
  * Given a date object returns the extra parts: day-of-week and week-of-year
@@ -89,8 +91,9 @@ K q_xparts(K x, K opts) {
   I xpart = 0;
   struct tm time_str;
   K r0 = tm0_err(TM0_ERR);
+  int idx;
 
-  if (x->t != -14 && x->t != 14) 
+  if (x->t != -14) 
     return r0;
   if (x->t > 0) is_list = 1;
 
@@ -130,8 +133,12 @@ K q_xparts(K x, K opts) {
       r0 = ki(time_str.tm_isdst);
       break;
     default:
+      idx = xpart - 3;
+      if (idx >= NFMTS) {
+        return r0;
+      }
       qbuffer[0] = '\0';
-      strftime(qbuffer, sizeof(qbuffer), fmts[xpart - 3], &time_str);
+      strftime(qbuffer, sizeof(qbuffer), fmts[idx], &time_str);
       r0 = ki(atoi(qbuffer));
     }
   }

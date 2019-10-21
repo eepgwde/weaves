@@ -45,6 +45,21 @@ x0
 x0: .date0.xparts[dt00;5]
 x0
 
+dt0: 2000.01.01T08:11:23.4560
+dt0
+
+raze ( .date0.parts @ `date$dt0 ; .time0.parts @ `time$dt0 )
+
+dt1: .datetime0.parts @ dt0
+
+x0: .date0.strftime[dt1;0;"%x - %I:%M%p %V %u"]
+x0
+
+// returns a string
+x1:.date0.strftime[dt1;0;"%u"]
+x1
+
+
 if[.sys.is_arg`exit; exit 0]
 
 /  Local Variables: 
