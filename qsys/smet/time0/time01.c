@@ -119,9 +119,11 @@ K q_utime3(K x) {
   time_t now0 = (time_t) i0;
   ctime_r(&now0, buffer0);
 
-  fprintf(stderr, "ctime: %f %u %s\n", r0, i0, buffer0);
+  // fprintf(stderr, "ctime: %f %u %s\n", r0, i0, buffer0);
+  // There is a stray \n on the end of the string returned.
+  buffer0[strlen(buffer0)-1] = '\0';
 
-  return ki(0);
+  return kp(buffer0);
 }
 
 /** @} */

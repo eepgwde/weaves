@@ -31,6 +31,8 @@ parts: { [dt] dt0:`date$dt; tm0:`time$dt;
 
 strftime: .time0.i.lib 2:(`q_strftime;3)
 
+xparts: .time0.i.lib 2:(`q_xparts;2)
+
 \d .
 
 

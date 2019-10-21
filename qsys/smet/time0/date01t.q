@@ -1,4 +1,4 @@
-// @file time01t.q
+// @file date01t.q
 // @brief UTC time functions demonstration - basic
 // @author weaves
 //
@@ -10,31 +10,25 @@
 
 .sys.qloader enlist "time0.q"
 
-/ Simplest interface, take one (null sym) argument
-/ This returns 1j
-
-0N!(type .time0.utime0[]; .time0.utime0[]);
-
-x0:.time0.utime1[]
-0N!(type x0; `int$floor x0; .Q.f[8;] x0 - floor x0 );
-
+// This is a challenge for week number. It is either the last week of the year before or the
+// the first week of this year.
 dt0: 2000.01.01T08:11:23.4560
 dt0
 
-x0: .time0.utime2[.time0.parts @ dt0;0]
+dt1: .time0.parts @ dt0
+
+x0: .date0.strftime[dt1;0;"%x - %I:%M%p %V %u"]
 x0
 
-x1: .time0.utime3 @ `float$x0
-x1
+fmt0: "ISO week number: %V ; other week number: %U ; day-of-week: %u; day-of-year: %j: year: %y"
 
-dt0: .z.z
-dt0
+x0: .date0.strftime[dt1;0;fmt0]
+x0
 
-dt1: .time0.parts @ dt0
-x0: .time0.utime2[dt1; 0]
+dt00: `date$dt0
 
-" " sv string each (type x0; floor x0; x0 - floor x0)
-x1: .time0.utime3 @ x0
+x0: .date0.xparts[dt00;0]
+x0
 
 if[.sys.is_arg`exit; exit 0]
 

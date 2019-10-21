@@ -23,6 +23,17 @@ Provide some day of week, week of year and access to strftime.
 
 /* #undef NDEBUG */
 
+static char qbuffer[1000] = "";
+static char qfmt[50] = "";
+
+static char *kstrcpy(K k1) {
+  int tsz=0;
+  if (k1->t != 10) return 0;
+  tsz = k1->n ? k1->n : 1; 
+  char * r = strncpy(qfmt, (const char *)kC(k1), (size_t) tsz);
+  return r;
+}
+
 /** \addtogroup dttm0
     Date and time methods.
     @{
@@ -31,10 +42,13 @@ Provide some day of week, week of year and access to strftime.
 /**
  * Display K date object as a strftime string.
  *
+ * Annoyingly, I have to use kstrcpy.
+ *
  * @return string formatted string.
  */
-K q_strftime(K x, K opts) {
+K q_strftime(K x, K opts, K fmt) {
   struct tm tm1;
+  char *fmt0;
 
   if (x->t != 6) return tm0_err(TM0_ERR);
 
@@ -42,6 +56,8 @@ K q_strftime(K x, K opts) {
   if (opts->t == -6) {
     is_dst = (int) opts->s;
   }
+
+  fmt0 = kstrcpy(fmt);
 
   int x0[TM0_N];
   for (int i=0; i < TM0_N; i++)
@@ -53,10 +69,40 @@ K q_strftime(K x, K opts) {
   tm0_empty0(x0);
   double r0 = tm0_tm2utc0(x0, is_dst, &tm1);
 
-  char date0[256];
-  strftime(date0, sizeof(date0), "%x - %I:%M%p %V %u", &tm1);
+  qbuffer[0] = '\0';
+  strftime(qbuffer, sizeof(qbuffer), fmt0, &tm1);
 
-  return kf(r0);
+  return kp(qbuffer);
 }
+
+/**
+ * Given a date object returns the extra parts: day-of-week and week-of-year
+ *
+ * @return string formatted string.
+ */
+K q_xparts(K x, K opts) {
+  struct tm tm1;
+  char *fmt0;
+  int is_list = 0;
+  int xpart = 0;
+
+  return tm0_err(TM0_ERR);
+
+  if (x->t != -14 && x->t != 14) return tm0_err(TM0_ERR);
+  if (x->t > 0) is_list = 1;
+
+  if (opts->t == -6) {
+    xpart = (int) opts->s;
+  }
+
+  I t0 = ymd(2001,1,2);
+  I * dt1 = kI(x);
+  I dt0 = dj(t0);
+  fprintf(stderr, "%d %d\n", *dt1, dt0);
+  int y = (int) (dt0 / 10000) ;
+
+  return kd(*kI(x));
+}
+
 
 /** @} */

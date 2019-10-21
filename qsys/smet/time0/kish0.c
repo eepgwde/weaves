@@ -24,7 +24,7 @@ static K tm0_err_;
 /* errors: 0 none, 1 something else */
 static int tm0_errno = -1;
 
-static int tm0_init();
+static void tm0_init(void);
 
 K tm0_err(int err_) {
   tm0_errno = err_;
@@ -32,19 +32,22 @@ K tm0_err(int err_) {
   return tm0_err_;
 }
 
-static int tm0_init() {
-  static int init_ = 0;
+/** Initialize and error marker
+ *
+ * This has a terrifying bug. I can't use static int flag0 = 0.
+ */
+static void tm0_init(void) {
+  static int flag0 = 0;
 
-  if (!init_) {
-    init_ = 1;
-
-    tm0_err_ = ks(ss("timeerror"));
-    tm0_err_ = r1(tm0_err_);
-
-    tm0_err(0);
+  if (flag0 != 0 && flag0 != 1) {
+    flag0 = 0;
   }
 
-  return 0;
+  if (!flag0) {
+    flag0 = 1;
+    tm0_err_ = ks(ss("timeerror"));
+    tm0_err_ = r1(tm0_err_);
+  }
 }
 
 /* Copy a char array to a string. A problem with zero-length strings */
