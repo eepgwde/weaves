@@ -267,4 +267,15 @@ It provides schema related functions
  .sch.t2csv will write a table to a CSV file in initial working
  directory.
 
+-- .date0 .time0 and .datetime0
+
+These namespaces contain some utilities to work with date and time and datetime types.
+If you build the smet/time0 module, they provide binary methods that extend this 
+namespace.
+
+The focus has been to produce day-of-week, week-of-year and other features. These have been
+implemented using strftime(3), so they are string-based and not as performant as one would
+hope. The scripts in the .q file are simple (leap year from the Q Phrasebook) and some 
+assembly utilities.
+
 	- Walter Eaves <walter.eaves@bigfoot.com>

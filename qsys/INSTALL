@@ -126,8 +126,6 @@ This will invoke the smet/autogen.sh
 This is where I specify the gnulib-tool modules to import. I do this
 because it if fiddly to specify them otherwise.
 
-
-
 * Postamble
 
 This file's Emacs file variables
