@@ -140,18 +140,32 @@ K q_xparts(K x, K opts) {
 
   if (x->t == 14) {
     I *dts = kI(x);
-    pdts = (I *) malloc(x->n * sizeof(I));
-    for (int i=0; i<x->n; i++) {
-      *(pdts + i) = dj(*(dts+i));
-    }
-    for (int i=0; i<x->n; i++) {
-      (void )dt0_to(pdts+i);
-      *(pdts+i) = dt0_part(xpart);
+
+    r0=ktn(KI,xi);              /* make the vector, implicitly uses the parameter K x and sizes it to that */
+
+    // Re-use this buffer for workspace
+
+    // Their cryptic example is this, I re-work this as for-loops and write it in their style.
+    /*
+
+    DO(xi,kI(r0)[i]=*(pdts+i))
+
+    Their DO doesn't need a semi-colon, but I put one in, because it help emacs format.
+
+    My loops
+
+    for (int i=0; i<xn; i++) {
+      kI(r0)[i] = dj(*(dts+i));
     }
 
-    r0=ktn(KI,xi);DO(xi,kI(r0)[i]=*(pdts+i)) /* make a vector and copy into it */
+    for (int i=0; i<xn; i++) {
+      (void )dt0_to(kI(r0)+i);
+      kI(r0)[i] = dt0_part(xpart);
+    }
+    */
 
-    free(pdts);
+    DO(xi,kI(r0)[i]=dj(*(dts+i))) ;
+    DO(xi,(void )dt0_to(kI(r0)+i); kI(r0)[i]=dt0_part(xpart)) ;
     return r0;
   }
 
