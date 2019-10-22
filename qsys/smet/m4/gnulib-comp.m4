@@ -59,6 +59,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module msvc-nothrow:
   # Code from module multiarch:
   # Code from module nocrash:
+  # Code from module sleep:
   # Code from module snippet/_Noreturn:
   # Code from module snippet/arg-nonnull:
   # Code from module snippet/c++defs:
@@ -161,6 +162,11 @@ AC_DEFUN([gl_INIT],
     AC_LIBOBJ([msvc-nothrow])
   fi
   gl_MULTIARCH
+  gl_FUNC_SLEEP
+  if test $HAVE_SLEEP = 0 || test $REPLACE_SLEEP = 1; then
+    AC_LIBOBJ([sleep])
+  fi
+  gl_UNISTD_MODULE_INDICATOR([sleep])
   gt_TYPE_SSIZE_T
   gl_STDARG_H
   AM_STDBOOL_H
@@ -367,6 +373,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/msvc-inval.h
   lib/msvc-nothrow.c
   lib/msvc-nothrow.h
+  lib/sleep.c
   lib/stdarg.in.h
   lib/stdbool.in.h
   lib/stddef.in.h
@@ -410,6 +417,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/nocrash.m4
   m4/off_t.m4
   m4/onceonly.m4
+  m4/sleep.m4
   m4/ssize_t.m4
   m4/stdarg.m4
   m4/stdbool.m4

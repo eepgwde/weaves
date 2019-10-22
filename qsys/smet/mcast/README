@@ -1,0 +1,12 @@
+weaves
+
+This provides a multi-cast announcement sender for q/kdb+
+
+It is designed to allow a q-server (typically a ticker-plant client) to announce it
+has new data.
+
+The packet it sends contains the host IP and port number and an optional list of symbol names.
+
+This system was originally developed to allow a pyq Python CPython client to receive an update
+in a socket thread in Python under GIL. This could then be used to connect to the server and
+get its new data.

@@ -26,12 +26,21 @@ then
 fi
 
 # Make sure a QHOME has been set on the command-line or environment.
+# Derive it from a QPROG
+if [ -n "${QPROG%%/*}" ]
+then
+  QPROG="$QHOME/$QOSTYPE/$QPROG"
+else
+  QHOME=$(dirname $(dirname $QPROG))
+  QOSTYPE=$(basename $(dirname $QPROG))
+fi
+
 : ${QHOME:=$HOME/q}
 test -d "$QHOME" || exit 1
 : ${QOSTYPE:=l32}
 test -d "$QHOME/$QOSTYPE" || exit 2
 : ${QPROG:=q}
-test -x "$QHOME/$QOSTYPE/$QPROG" || exit 3
+
 
 # Make sure the string metrics have been set correctly.
 : ${smet:="disable"}
@@ -78,6 +87,8 @@ $nodo autoconf --force
 $nodo ./configure CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS" CXXFLAGS="$CXXFLAGS" QHOME=$QHOME PATH=$PATH:$QHOME/${QOSTYPE} --prefix=$HOME \
  $BUILD_HOST \
  --${smet}-string-metrics \
+ --with-qprog=$(basename $QPROG) \
+ --with-qprogdir=$(dirname $QPROG) \
  --with-qtrdrhost=$HOSTNAME \
  --with-qtrdrport=15001 \
  --disable-dependency-tracking

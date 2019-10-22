@@ -5,9 +5,7 @@ ACLOCAL_AMFLAGS = -I m4
 
 # The build of the test program doesn't work under Solaris.
 
-noinst_PROGRAMS = egext crc_t
-crc_t_SOURCES = crc_t.c
-crc_t_LDADD = -L${top_srcdir}/lib -lgnu -lpthread -lm
+noinst_PROGRAMS = egext
 egext_SOURCES = egext.c
 egext_LDADD = c.o -L${top_srcdir}/lib libqregex.la -lgnu -lpthread -lm
 
