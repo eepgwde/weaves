@@ -1,5 +1,12 @@
 weaves
 
+This is very much work in progress. 
+
+I've not even implemented a real multicast! The test programs (multicast and multicast1) 
+all use the same port. It doesn't seem to multicast over the network either.
+
+--
+
 This provides a multi-cast announcement sender for q/kdb+
 
 It is designed to allow a q-server (typically a ticker-plant client) to announce it
@@ -12,4 +19,19 @@ in a socket thread in Python under GIL. This could then be used to connect to th
 get its new data.
 
 Python needs to use asyncio and this is only available with Python3.
+
+--
+
+There are some basic multicast test programs.
+
+multicast is the original test program.
+multicast1 is a refactored one. It uses the components that are to be used by the Python3
+and q/kdb+ component, so it tests the components for use with them.
+
+To run these (it's the same for multicast1)  
+
+ $ multicast 1 & # preferably in its own terminal
+ $ multicast     # preferably in another terminal
+
+and wait a bit. The first will send, the latter will receive and send back.
 
