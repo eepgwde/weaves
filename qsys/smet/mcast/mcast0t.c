@@ -1,7 +1,7 @@
-/* \file egext.c
-   \brief Regular expression interface - utility regular expressions for q/kdb using GNUlib
+/* \file mcast0t.c
+   \brief Check out some casting issues with the time structures.
 
-Test program.
+   This has to build under 32 bit and I'm checking the type sizes in use.
 
 \author Walter.Eaves@bigfoot.com
 
@@ -17,6 +17,7 @@ Test program.
 int main(int argc, char **argv) {
 
   {
+    /* Check structure sizes */
     unsigned int now0;
     time_t now1;
     struct timeval tv0;
@@ -25,18 +26,19 @@ int main(int argc, char **argv) {
 	    sizeof(now1), sizeof(tv0));
   }
 
+  /* from unsigned int, compare to time_t */
   unsigned int now0;
-  time_t *t0 = time((time_t *)&now0);
+  time_t t0 = time((time_t *)&now0);
   
   time_t now1;
-  time_t *t1 = time(&now1);
+  time_t t1 = time(&now1);
   
-  fprintf(stderr, "time_t 0x%p\n", t1);
-  fprintf(stderr, "time_t %u\n", *((unsigned int *)&now1) );
+  fprintf(stderr, "time_t now1 %u ; time_t t1 %u\n", now1, t1);
 
   struct tm now10;
   gmtime_r(&now1, &now10);
 
+  /* And check the values returned against the struct tm structure call. */
   struct timeval tv0;
 
   int retval = gettimeofday(&tv0, NULL);
