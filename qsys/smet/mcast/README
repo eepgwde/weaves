@@ -10,3 +10,6 @@ The packet it sends contains the host IP and port number and an optional list of
 This system was originally developed to allow a pyq Python CPython client to receive an update
 in a socket thread in Python under GIL. This could then be used to connect to the server and
 get its new data.
+
+Python needs to use asyncio and this is only available with Python3.
+

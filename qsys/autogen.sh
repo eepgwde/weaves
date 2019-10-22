@@ -8,6 +8,9 @@
 #  autogen.sh smet=no nodo=echo
 # Is a no-do method
 
+# If you enable smet=enable then it will invoke the smet autogen.sh which performs a
+# gnulib-tool import that is where I specify the modules to import.
+
 # It expects SHELL to be a BASH shell.
 
 for i in $*
@@ -25,24 +28,17 @@ then
     exit 0
 fi
 
-# Make sure a QHOME has been set on the command-line or environment.
-# Derive it from a QPROG
-if [ -n "${QPROG%%/*}" ]
-then
-  QPROG="$QHOME/$QOSTYPE/$QPROG"
-else
-  QHOME=$(dirname $(dirname $QPROG))
-  QOSTYPE=$(basename $(dirname $QPROG))
-fi
-
 : ${QHOME:=$HOME/q}
 test -d "$QHOME" || exit 1
 : ${QOSTYPE:=l32}
 test -d "$QHOME/$QOSTYPE" || exit 2
-: ${QPROG:=q}
 
+: ${QPROG:=$QHOME/$QOSTYPE/q}
+
+: ${QTRDR_HOST:=$HOSTNAME}
 
 # Make sure the string metrics have been set correctly.
+# This smet/autogen.sh only configures the gnulib-tool component.
 : ${smet:="disable"}
 if [ -n "${smet}" -a "$smet" = "enable" ]
 then
@@ -81,14 +77,15 @@ $nodo aclocal
 $nodo automake --add-missing --copy
 $nodo autoconf --force
 
-# We override the Q progdir because we only have Linux 32 bit
-# We override the Q homedir because of a home directory layout quirk
+# We can override the Q progdir because we only have Linux 32 bit
+# We also override the Q homedir because of my home directory layout quirk
 
-$nodo ./configure CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS" CXXFLAGS="$CXXFLAGS" QHOME=$QHOME PATH=$PATH:$QHOME/${QOSTYPE} --prefix=$HOME \
- $BUILD_HOST \
+# This is a nested configure generate so it can take ages.
+
+$nodo ./configure CFLAGS="$CFLAGS" LDFLAGS="$LDFLAGS" CXXFLAGS="$CXXFLAGS" QHOME=$QHOME PATH=$PATH:$QHOME/${QOSTYPE} --prefix=$HOME $BUILD_HOST \
  --${smet}-string-metrics \
  --with-qprog=$(basename $QPROG) \
  --with-qprogdir=$(dirname $QPROG) \
- --with-qtrdrhost=$HOSTNAME \
+ --with-qtrdrhost=$QTRDR_HOST \
  --with-qtrdrport=15001 \
  --disable-dependency-tracking
