@@ -37,4 +37,4 @@ man_MANS=egex.1
 
 clean-local:
 	$(SHELL) -c "rm -f cscope.*"
-	rm -f make.log
+	rm -f make.log README
