@@ -3,11 +3,11 @@
 
 Provide some day of week, week of year and access to strftime.
 
+There are some problems with initialization. See q_init0()
+
 \author Walter.Eaves@bigfoot.com
 
 */
-
-#include <inttypes.h>
 
 #include "config.h"
 
@@ -25,8 +25,32 @@ Provide some day of week, week of year and access to strftime.
 
 /* #undef NDEBUG */
 
-static char qbuffer[1000] = "";
-static char qfmt[50] = "";
+static int q_init0_ = -1;
+static volatile J v = 0;
+
+/** Static buffers are pointers to something in the data segment.
+ * and can't return sizeof.
+ */
+
+#define NQBUFFER 256
+static char qbuffer[NQBUFFER] = "";
+#define NQFMT 10
+static char qfmt[NQFMT] = "";
+
+/** Module initialization.
+ *
+ * The statics weren't being initialized.
+ * But then I realized the buffers were not returning the right sizeof.
+ * I believe this is corrected now.
+ */
+K q_init0(K x){
+  fprintf(stderr, "%d %d\n", q_init0_, v);
+  q_init0_ = -1;
+  v = 0;
+  tm0_init();
+
+  return ks("time0init");
+}
 
 static char *kstrcpy(K k1) {
   int tsz=0;
@@ -59,7 +83,7 @@ K q_strftime(K x, K opts, K fmt) {
     is_dst = (int) opts->i;
   }
 
-  strncpy(qfmt, "", sizeof(qfmt));
+  strncpy(qfmt, "", NQFMT);     /* use the buffer size, it should sizeof to char. */
   fmt0 = kstrcpy(fmt);
 
   int x0[TM0_N];
@@ -72,20 +96,23 @@ K q_strftime(K x, K opts, K fmt) {
   tm0_empty0(x0);
   double r0 = tm0_tm2utc0(x0, is_dst, &tm1);
 
-  strncpy(qbuffer, "", sizeof(qbuffer));
-  size_t n = strftime(qbuffer, sizeof(qbuffer), fmt0, &tm1);
+  strncpy(qbuffer, "", NQBUFFER);
+  size_t n = strftime(qbuffer, NQBUFFER, fmt0, &tm1);
 
   return kp(qbuffer);
 }
 
-static volatile J v;
-
+/** Thread-safe sequence.
+ *
+ * An example who to use a vector fill.
+ * Bit cryptic!
+ */
 K q_seq(K x){
   K y;J j=1;
-  P(xt!=101&&xt!=-7,krr("type"))
-  j=__sync_fetch_and_add(&v,xt==-7?xj:j);
-  P(xt==101,kj(j))
-  y=ktn(KJ,xj);DO(xj,kJ(y)[i]=j++)
+  P(xt!=101&&xt!=-7,krr("type")) /* there error return */
+  j=__sync_fetch_and_add(&v,xt==-7?xj:j); /* thread-safe method */
+  P(xt==101,kj(j))                        /* 101 is a unary primitive, I've never seen this, must be f[] */
+  y=ktn(KJ,xj);DO(xj,kJ(y)[i]=j++)        /* make a vector and copy into it */
   R y;
 }
 
@@ -120,9 +147,10 @@ K q_xparts(K x, K opts) {
     for (int i=0; i<x->n; i++) {
       (void )dt0_to(pdts+i);
       *(pdts+i) = dt0_part(xpart);
-      fprintf(stderr, "%d ", *(pdts+i));
     }
-    fprintf(stderr, "\n");
+
+    r0=ktn(KI,xi);DO(xi,kI(r0)[i]=*(pdts+i)) /* make a vector and copy into it */
+
     free(pdts);
     return r0;
   }
@@ -166,14 +194,12 @@ K q_xparts(K x, K opts) {
       if (idx >= NFMTS) {
         return r0;
       }
-      strncpy(qbuffer, "", sizeof(qbuffer));
-      strftime(qbuffer, sizeof(qbuffer), fmts[idx], &time_str);
+      strftime(qbuffer, NQBUFFER, fmts[idx], &time_str);
       r0 = ki(atoi(qbuffer));
     }
   }
 
   return r0;
 }
-
 
 /** @} */

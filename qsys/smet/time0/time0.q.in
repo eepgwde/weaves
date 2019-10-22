@@ -29,8 +29,8 @@ parts: { [dt] tm0:`time$dt;
 
 \d .date0
 
+init0: .time0.i.lib 2:(`q_init0;1)
 strftime: .time0.i.lib 2:(`q_strftime;3)
-
 seq: .time0.i.lib 2:(`q_seq;1)
 
 // Convert a K date object to an array

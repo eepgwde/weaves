@@ -21,10 +21,8 @@ Provide conversion to and from K
 static K tm0_err_;
 
 /* Error number shared by modules */
-/* errors: 0 none, 1 something else */
+/* errors: 0 none, 1 something else. Not used! */
 static int tm0_errno = -1;
-
-static void tm0_init(void);
 
 K tm0_err(int err_) {
   tm0_errno = err_;
@@ -36,21 +34,18 @@ K tm0_err(int err_) {
  *
  * This has a terrifying bug. I can't use static int flag0 = 0.
  */
-static void tm0_init(void) {
-  static int flag0 = 0;
+void tm0_init(void) {
+  static int flag0 = -1;
 
-  if (flag0 != 0 && flag0 != 1) {
+  if (flag0 == -1) {
     flag0 = 0;
-  }
-
-  if (!flag0) {
-    flag0 = 1;
-    tm0_err_ = ks(ss("timeerror"));
-    tm0_err_ = r1(tm0_err_);
+    tm0_err_ = ks("time0error");
+    /* Not sure if this is needed.
+      tm0_err_ = r1(tm0_err_); */
   }
 }
 
-/* Copy a char array to a string. A problem with zero-length strings */
+/* Copy a char array to a string. A problem with zero-length strings. */
 char *kstrdup(K k1) {
   int tsz=0;
   if (k1->t != 10) return 0;

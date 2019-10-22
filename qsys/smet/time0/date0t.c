@@ -22,6 +22,8 @@ int main(int argc, char **argv) {
   struct tm *tmp ; 
   char date0[256];
 
+  fprintf(stderr, "sizeof %u\n", sizeof(date0));
+
   {
     struct tm time_str;
     char daybuf[20];

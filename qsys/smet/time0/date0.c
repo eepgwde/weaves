@@ -21,7 +21,8 @@ Provide some day of the week and week number methods. A generic interface to str
 
 /* #undef NDEBUG */
 
-static char qbuffer[256] = "";
+#define NQBUFFER 256
+static char qbuffer[NQBUFFER] = "";
 
 static struct tm tm1;
 
@@ -71,8 +72,8 @@ int dt0_part(const int xpart) {
     if (idx >= NFMTS) {
       return r0;
     }
-    strncpy(qbuffer, "", sizeof(qbuffer));
-    strftime(qbuffer, sizeof(qbuffer), fmts[idx], &tm1);
+    strncpy(qbuffer, "", sizeof(NQBUFFER));
+    strftime(qbuffer, NQBUFFER, fmts[idx], &tm1);
     r0 = atoi(qbuffer);
   }
   return r0;

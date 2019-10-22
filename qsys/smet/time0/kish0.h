@@ -11,6 +11,8 @@
 
 #include "k.h"
 
+extern void tm0_init();
+
 extern K tm0_err();
 #define TM0_ERR 1
 #define TM0_NOERR 0
