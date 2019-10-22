@@ -69,6 +69,12 @@ dts:(2001.01.01 2002.02.02 2003.03.03)
 x1: .date0.xparts[dts;1]
 x1
 
+dts:`datetime$(2001.01.01 2002.02.02 2003.03.03)
+f0: .date0.xparts[;1]
+
+@[f0;dts;{ "expected-failure: type : ", x }]
+
+
 if[.sys.is_arg`exit; exit 0]
 
 /  Local Variables: 

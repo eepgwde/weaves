@@ -167,53 +167,15 @@ K q_xparts(K x, K opts) {
     DO(xi,kI(r0)[i]=dj(*(dts+i))) ;
     DO(xi,(void )dt0_to(kI(r0)+i); kI(r0)[i]=dt0_part(xpart)) ;
     return r0;
+  } else if (x->t == -14) {
+    I dt0 = dj(xi);
+    (void )dt0_to(&dt0);
+    dt0 = dt0_part(xpart);
+    r0 = ki(dt0);
+    return r0;
   }
 
-  if (x->t != -14) 
-    return r0;
-
-  // This is an atomic access
-  I dt1 = x->i;
-  I dt0 = dj(dt1);
-  int y = (int) (dt0 / 10000) ;
-  dt0 = dt0 - 10000 * y;
-  int m = (int) dt0 / 100 ;
-  dt0 = dt0 - 100 * m;
-  int d = (int) dt0;
-
-  /* notice you don't have to put in weekday or year day */
-  time_str.tm_year = y - 1900;
-  time_str.tm_mon = m - 1;    /* month */
-  time_str.tm_mday = d;       /* day of month */
-  time_str.tm_hour = 0;
-  time_str.tm_min = 0;
-  time_str.tm_sec = 1;
-  time_str.tm_isdst = -1;
-
-  if (mktime(&time_str) == -1)
-    return r0;
-  else {
-    switch (xpart) {
-    case 0:
-      r0 = ki(time_str.tm_wday);
-      break;
-    case 1:
-      r0 = ki(time_str.tm_yday);
-      break;
-    case 2:
-      r0 = ki(time_str.tm_isdst);
-      break;
-    default:
-      idx = xpart - 3;
-      if (idx >= NFMTS) {
-        return r0;
-      }
-      strftime(qbuffer, NQBUFFER, fmts[idx], &time_str);
-      r0 = ki(atoi(qbuffer));
-    }
-  }
-
-  return r0;
+  krr("type");
 }
 
 /** @} */
