@@ -6,7 +6,7 @@
 
 ACLOCAL_AMFLAGS = -I $(top_builddir)/m4
 
-CPPFLAGS = -I $(top_builddir)/lib
+CPPFLAGS = -I .. -I $(top_builddir)/lib
 
 LDADD = $(LTLIBINTL) $(top_builddir)/lib/libgnu.la
 
@@ -24,6 +24,8 @@ egex_SOURCES = egexm.c egex.1 xmalloc.c
 mygrep_SOURCES = mygrep.c 
 regexpr_SOURCES = regexpr.c
 
+README: egexm
+	egexm > $@
 
 EXTRA_DIST = $(TESTS) README
 
@@ -35,4 +37,4 @@ man_MANS=egex.1
 
 clean-local:
 	$(SHELL) -c "rm -f cscope.*"
-	rm -f make.log
+	rm -f make.log README

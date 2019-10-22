@@ -1,3 +1,10 @@
+Linkage to kx/c
+***************
+
+You need to put k.h into this directory.
+
+You should put c.o into your QHOME/l32/ directory or l64 or whatever your OS type is.
+
 Using gnulib
 *************
 

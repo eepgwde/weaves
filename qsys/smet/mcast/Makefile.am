@@ -1,13 +1,7 @@
 AM_CFLAGS ?= -DNDEBUG
-CPPFLAGS = -I${top_srcdir}/lib -DNO_PYTHON
+CPPFLAGS = -I${top_srcdir}/lib -I.. -DNO_PYTHON
 
 ACLOCAL_AMFLAGS = -I m4
-
-# The build of the test program doesn't work under Solaris.
-
-noinst_PROGRAMS = egext
-egext_SOURCES = egext.c
-egext_LDADD = c.o -L${top_srcdir}/lib libqregex.la -lgnu -lpthread -lm
 
 BUILT_SOURCES = c.o
 
@@ -15,31 +9,39 @@ c.o:
 	$(RM) $@
 	$(LN_S) ${qprogdir}/c.o 
 
-pkglib_LTLIBRARIES = libqregex.la
-libqregex_la_LIBADD = $(LTLIBINTL) ${top_srcdir}/lib/libgnu.la
-libqregex_la_SOURCES = egex0.c egex.c egex1.c Levenshtein.c kish.c smetrics.c version-etc-fsf.c
+pkglib_LTLIBRARIES = libqmcast.la
+libqmcast_la_LIBADD = $(LTLIBINTL) ${top_srcdir}/lib/libgnu.la
+libqmcast_la_SOURCES = mcast0.c mcast01.c version-etc-fsf.c
 
-libqregex_la_FLAGS = -no-undefined -module
+libqmcast_la_FLAGS = -no-undefined -module
 
-noinst_HEADERS = egex0.h  kish.h  Levenshtein1.h  Levenshtein.h  skel.h
+noinst_PROGRAMS = mcast0t multicast multicast1
+
+mcast0t_LDADD = c.o libqmcast.la $(libqmcast_la_LIBADD) 
+mcast0t_LDFLAGS = -static -lpthread 
+
+multicast_LDADD = c.o libqmcast.la $(libqmcast_la_LIBADD) 
+multicast_LDFLAGS = -static -lpthread 
+
+multicast1_LDADD = c.o libqmcast.la $(libqmcast_la_LIBADD) 
+multicast1_LDFLAGS = -static -lpthread 
+
+noinst_HEADERS = mcast0.h 
 
 #  if you write a self-test script named `chk', uncomment the
 #  following and add `chk' to the EXTRA_DIST list
 
-AM_TESTS_ENVIRONMENT = 
-LOG_COMPILER = $(SHELL)
-AM_LOG_FLAGS = -x
+TESTS = mcast00.sh mcast01.sh
+AM_TEST_ENVIRONMENT = 
 
-TESTS = crc_t.sh egex.sh smet.sh egex1.sh 
-
-q_files_TEST = egex1.q egex.q smet.q 
-q_files = regex.q.in
+q_files_TEST = mcast01t.q mcast02t.q
+q_files = mcast0.q.in
 
 EXTRA_DIST = README $(TESTS) $(q_files_TEST) $(q_files)
 
-CLEANFILES = regex.q
+CLEANFILES = mcast0.q
 
-dist_pkgdata_DATA = regex.q
+dist_pkgdata_DATA = mcast0.q
 
 do_subst = sed -e 's,[@]pkgdatadir[@],$(pkgdatadir),g' \
 	       -e 's,[@]sysconfdir[@],$(sysconfdir),g' \

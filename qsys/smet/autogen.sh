@@ -10,7 +10,8 @@ set -e
 
 test -d lib
 
-$nodo gnulib-tool --libtool --import memchr memcpy strndup strerror error getopt long-options stdint crc
+$nodo gnulib-tool --libtool --import \
+ crc error getopt long-options memchr memcpy sleep stdint strerror strftime strndup
 
 $nodo libtoolize --force
 
